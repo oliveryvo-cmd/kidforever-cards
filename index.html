@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>KidForever Cards ⚡ — Collect. Trade. Rule.</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#03020a;--gold:#ffcc00;--red:#ff2244;--purple:#bb33ff;--green:#00ffaa;--blue:#2255ff;--panel:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.07);}
+body{background:var(--bg);color:#fff;font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;overflow-x:hidden;}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* TITLE */
+#title{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+.t-eyebrow{font-size:0.42rem;letter-spacing:10px;color:#111122;margin-bottom:12px;}
+.t-logo{font-size:clamp(3rem,15vw,8rem);font-weight:900;letter-spacing:2px;line-height:0.9;background:linear-gradient(135deg,var(--gold),var(--red),var(--purple),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
+.t-sub{font-size:clamp(0.8rem,4vw,1.5rem);font-weight:900;letter-spacing:8px;color:#fff;margin-bottom:6px;}
+.t-tag{font-size:0.48rem;letter-spacing:5px;color:#1a1a33;margin-bottom:32px;}
+.t-btn{padding:17px 56px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:50px;font-size:0.9rem;font-weight:900;letter-spacing:5px;cursor:pointer;color:#000;font-family:inherit;animation:glow 2s ease-in-out infinite;}
+@keyframes glow{0%,100%{box-shadow:0 0 30px rgba(255,204,0,0.4);}50%{box-shadow:0 0 70px rgba(255,204,0,0.8);}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(3,2,10,0.95);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.nav-logo{font-size:0.78rem;font-weight:900;letter-spacing:4px;background:linear-gradient(90deg,var(--gold),var(--red),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-sp{flex:1;}
+.nav-coins{font-size:0.5rem;letter-spacing:3px;color:var(--gold);background:rgba(255,204,0,0.07);padding:5px 14px;border-radius:50px;border:1px solid rgba(255,204,0,0.15);}
+
+/* TABS */
+#tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(3,2,10,0.9);position:sticky;top:53px;z-index:40;backdrop-filter:blur(20px);overflow-x:auto;}
+.tab{flex:1;min-width:65px;padding:12px 4px;text-align:center;font-size:0.42rem;letter-spacing:2px;color:#1a1a33;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+#content{max-width:700px;margin:0 auto;padding:0 0 90px;position:relative;z-index:1;}
+
+/* CARD */
+.card{width:160px;height:224px;border-radius:16px;position:relative;cursor:pointer;flex-shrink:0;transition:transform 0.2s;display:inline-block;}
+.card:hover{transform:scale(1.06) rotate(-1deg);}
+.card-inner{width:100%;height:100%;border-radius:16px;padding:10px;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.card-shine{position:absolute;inset:0;border-radius:16px;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.08) 50%,transparent 60%);pointer-events:none;}
+.card-rarity{font-size:0.36rem;letter-spacing:4px;margin-bottom:4px;}
+.card-art{flex:1;display:flex;align-items:center;justify-content:center;font-size:3.5rem;text-shadow:0 0 20px rgba(255,255,255,0.3);}
+.card-name{font-size:0.58rem;font-weight:900;letter-spacing:2px;color:#fff;margin-bottom:2px;}
+.card-world{font-size:0.36rem;letter-spacing:3px;opacity:0.7;margin-bottom:6px;}
+.card-stats{display:flex;gap:6px;}
+.cs{text-align:center;flex:1;}
+.cs-n{font-size:0.65rem;font-weight:900;color:#fff;}
+.cs-l{font-size:0.3rem;letter-spacing:2px;opacity:0.6;}
+.card-border{position:absolute;inset:0;border-radius:16px;border:2px solid rgba(255,255,255,0.15);pointer-events:none;}
+
+/* COLLECTION GRID */
+.coll-grid{display:flex;flex-wrap:wrap;gap:12px;padding:16px;justify-content:center;}
+
+/* PACK */
+.pack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;}
+.pack-card{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:20px;text-align:center;cursor:pointer;transition:transform 0.2s,border-color 0.2s;}
+.pack-card:hover{transform:scale(1.02);border-color:rgba(255,255,255,0.15);}
+.pack-icon{font-size:3rem;margin-bottom:8px;animation:float 3s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.pack-name{font-size:0.65rem;font-weight:900;color:#fff;letter-spacing:2px;margin-bottom:4px;}
+.pack-desc{font-size:0.45rem;color:#aaaabb;line-height:1.9;margin-bottom:10px;}
+.pack-price{font-size:0.55rem;font-weight:900;color:var(--gold);}
+.pack-btn{width:100%;margin-top:10px;padding:11px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:10px;font-size:0.58rem;font-weight:900;letter-spacing:3px;cursor:pointer;color:#000;font-family:inherit;}
+
+/* CREATOR */
+.creator{padding:16px;}
+.cr-section{font-size:0.44rem;letter-spacing:5px;color:#1a1a33;margin:12px 0 8px;}
+.cr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.cr-opt{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;transition:border-color 0.2s;}
+.cr-opt:hover,.cr-opt.sel{border-color:var(--gold);background:rgba(255,204,0,0.06);}
+.cr-opt-icon{font-size:1.4rem;margin-bottom:3px;}
+.cr-opt-lbl{font-size:0.36rem;letter-spacing:2px;color:#aaaabb;}
+.cr-inp{width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px 16px;color:#fff;font-size:0.65rem;letter-spacing:2px;outline:none;margin-bottom:8px;font-family:inherit;}
+.cr-inp:focus{border-color:var(--gold);}
+.cr-preview{display:flex;justify-content:center;margin:16px 0;}
+.cr-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:14px;font-size:0.75rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#000;font-family:inherit;margin-top:8px;}
+
+/* TRADE */
+.trade-card{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:20px;margin:8px 16px;}
+.tc-title{font-size:0.6rem;font-weight:700;color:#fff;margin-bottom:6px;}
+.tc-body{font-size:0.52rem;color:#aaaabb;line-height:2.2;margin-bottom:12px;}
+.trade-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+
+/* OPEN PACK ANIMATION */
+#pack-open{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
+.po-title{font-size:clamp(1.5rem,8vw,3rem);font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,var(--gold),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;}
+.po-cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;}
+.po-btn{padding:14px 48px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:50px;font-size:0.8rem;font-weight:900;letter-spacing:5px;cursor:pointer;color:#000;font-family:inherit;}
+
+/* BOTTOM NAV */
+#bnav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(3,2,10,0.97);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;justify-content:space-around;padding:10px 0 14px;}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 10px;border-radius:10px;}
+.bn.active,.bn:hover{background:rgba(255,204,0,0.07);}
+.bn-i{font-size:1.3rem;}
+.bn-l{font-size:0.35rem;letter-spacing:2px;color:#1a1a33;}
+.bn.active .bn-l{color:var(--gold);}
+
+#main{display:none;flex-direction:column;min-height:100vh;}
+.section-hd{font-size:0.44rem;letter-spacing:6px;color:#1a1a33;padding:14px 16px 6px;}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<!-- TITLE -->
+<div id="title">
+  <div class="t-eyebrow">PUFFBLAZE WORLD STUDIOS</div>
+  <div class="t-logo">KidForever<br>Cards</div>
+  <div class="t-sub">COLLECT · TRADE · RULE</div>
+  <div class="t-tag">EVERY CARD IS A WORLD. EVERY KID IS LEGENDARY.</div>
+  <button class="t-btn" onclick="enterCards()">⚡ OPEN YOUR FIRST PACK</button>
+</div>
+
+<!-- PACK OPEN -->
+<div id="pack-open">
+  <div class="po-title" id="po-title">YOU GOT:</div>
+  <div class="po-cards" id="po-cards"></div>
+  <button class="po-btn" onclick="closePack()">✨ ADD TO COLLECTION</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <nav>
+    <div class="nav-logo">KIDFOREVER CARDS</div>
+    <div class="nav-sp"></div>
+    <div class="nav-coins">🪙 <span id="nav-coins">0</span> COINS</div>
+  </nav>
+  <div id="tabs">
+    <div class="tab active" onclick="showTab('collection',this)">✨ COLLECTION</div>
+    <div class="tab" onclick="showTab('packs',this)">📦 PACKS</div>
+    <div class="tab" onclick="showTab('create',this)">🎨 CREATE</div>
+    <div class="tab" onclick="showTab('trade',this)">🔄 TRADE</div>
+  </div>
+  <div id="content">
+
+    <!-- COLLECTION -->
+    <div id="tab-collection">
+      <div class="section-hd">✨ YOUR COLLECTION — <span id="coll-count">0</span> CARDS</div>
+      <div class="coll-grid" id="coll-grid"></div>
+    </div>
+
+    <!-- PACKS -->
+    <div id="tab-packs" style="display:none;">
+      <div class="section-hd">📦 OPEN A PACK</div>
+      <div class="pack-grid">
+        <div class="pack-card">
+          <div class="pack-icon">⚡</div>
+          <div class="pack-name">STARTER PACK</div>
+          <div class="pack-desc">5 cards from across the KidForever universe. Great for beginners.</div>
+          <div class="pack-price">FREE</div>
+          <button class="pack-btn" onclick="openPack('starter')">OPEN NOW</button>
+        </div>
+        <div class="pack-card">
+          <div class="pack-icon" style="animation-delay:0.5s;">🔥</div>
+          <div class="pack-name">HYPERBLAST PACK</div>
+          <div class="pack-desc">5 cards from HYPERBLAST ULTRA. Higher chance of EPIC cards.</div>
+          <div class="pack-price">🪙 100 COINS</div>
+          <button class="pack-btn" onclick="openPack('hyperblast')">OPEN</button>
+        </div>
+        <div class="pack-card">
+          <div class="pack-icon" style="animation-delay:1s;">🌸</div>
+          <div class="pack-name">FLUFFLAND PACK</div>
+          <div class="pack-desc">5 cozy cards from FluffLand. Rare plushie characters inside.</div>
+          <div class="pack-price">🪙 100 COINS</div>
+          <button class="pack-btn" onclick="openPack('fluffland')">OPEN</button>
+        </div>
+        <div class="pack-card">
+          <div class="pack-icon" style="animation-delay:1.5s;">👑</div>
+          <div class="pack-name">LEGENDARY PACK</div>
+          <div class="pack-desc">5 cards. Guaranteed LEGENDARY. Ultra rare foil cards inside.</div>
+          <div class="pack-price">🪙 500 COINS</div>
+          <button class="pack-btn" style="background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;" onclick="openPack('legendary')">OPEN</button>
+        </div>
+      </div>
+      <div style="background:rgba(255,204,0,0.05);border:1px solid rgba(255,204,0,0.1);border-radius:16px;padding:16px;margin:8px 16px;text-align:center;">
+        <div style="font-size:0.46rem;letter-spacing:4px;color:var(--gold);margin-bottom:6px;">🪙 HOW TO EARN COINS</div>
+        <div style="font-size:0.52rem;color:#aaaabb;line-height:2.3;">Create a card → +50 coins · Open your first pack today → +200 coins<br>Share KidForever Cards → +100 coins · Come back tomorrow → +50 coins</div>
+      </div>
+    </div>
+
+    <!-- CREATE -->
+    <div id="tab-create" style="display:none;">
+      <div class="creator">
+        <div style="font-size:0.55rem;letter-spacing:4px;color:var(--purple);margin-bottom:12px;">🎨 DESIGN YOUR OWN CARD</div>
+
+        <div class="cr-section">CHOOSE YOUR CHARACTER</div>
+        <div class="cr-grid" id="art-grid"></div>
+
+        <div class="cr-section">CHOOSE YOUR WORLD</div>
+        <div class="cr-grid" id="world-grid"></div>
+
+        <div class="cr-section">CHOOSE RARITY</div>
+        <div class="cr-grid" id="rarity-grid"></div>
+
+        <div class="cr-section">NAME YOUR CARD</div>
+        <input class="cr-inp" id="cr-name" placeholder="Card name..." maxlength="16" oninput="updatePreview()">
+
+        <div class="cr-section">PREVIEW</div>
+        <div class="cr-preview" id="cr-preview"></div>
+
+        <button class="cr-btn" onclick="saveCard()">⚡ ADD TO MY COLLECTION</button>
+      </div>
+    </div>
+
+    <!-- TRADE -->
+    <div id="tab-trade" style="display:none;">
+      <div class="section-hd">🔄 TRADE CARDS</div>
+      <div class="trade-card">
+        <div class="tc-title">🌍 KIDS TRADING RIGHT NOW</div>
+        <div class="tc-body">Trading is coming soon. For now, share your collection link and trade with friends in real life — just like real trading cards!</div>
+        <button style="width:100%;padding:12px;background:linear-gradient(135deg,var(--green),var(--blue));border:none;border-radius:12px;font-size:0.62rem;font-weight:900;letter-spacing:3px;cursor:pointer;color:#000;font-family:inherit;margin-top:8px;" onclick="shareCollection()">📤 SHARE MY COLLECTION</button>
+      </div>
+      <div class="section-hd">🏆 MOST WANTED CARDS</div>
+      <div class="trade-list" id="wanted-list"></div>
+      <div class="section-hd" style="margin-top:8px;">🖨️ PRINT YOUR CARDS</div>
+      <div class="trade-card">
+        <div class="tc-title">Make them real</div>
+        <div class="tc-body">Print your cards at home and trade them with friends at school. Real cards. Real trades. Just like Pokemon — but YOUR universe.</div>
+        <button style="width:100%;padding:12px;background:linear-gradient(135deg,var(--gold),var(--purple));border:none;border-radius:12px;font-size:0.62rem;font-weight:900;letter-spacing:3px;cursor:pointer;color:#000;font-family:inherit;margin-top:8px;" onclick="printCards()">🖨️ PRINT MY CARDS</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="bnav">
+    <div class="bn active" onclick="showTab('collection',null,this)"><div class="bn-i">✨</div><div class="bn-l">COLLECTION</div></div>
+    <div class="bn" onclick="showTab('packs',null,this)"><div class="bn-i">📦</div><div class="bn-l">PACKS</div></div>
+    <div class="bn" onclick="showTab('create',null,this)"><div class="bn-i">🎨</div><div class="bn-l">CREATE</div></div>
+    <div class="bn" onclick="showTab('trade',null,this)"><div class="bn-i">🔄</div><div class="bn-l">TRADE</div></div>
+  </div>
+</div>
+
+<script>
+// ── BG ──
+const bgc=document.getElementById('bg'),bgx=bgc.getContext('2d');let t=0;
+function drawBG(){bgc.width=innerWidth;bgc.height=innerHeight;bgx.fillStyle='#03020a';bgx.fillRect(0,0,bgc.width,bgc.height);for(let i=0;i<120;i++){const x=(i*137+t*0.03)%bgc.width,y=(i*89)%bgc.height;bgx.globalAlpha=(Math.sin(t*0.02+i)*0.5+0.5)*0.4;bgx.fillStyle=i%3===0?'#ffcc00':i%3===1?'#bb33ff':'#fff';bgx.beginPath();bgx.arc(x,y,0.8,0,Math.PI*2);bgx.fill();}bgx.globalAlpha=1;t++;requestAnimationFrame(drawBG);}
+drawBG();
+
+// ── DATA ──
+const ARTS=['⚡','👑','🔥','🌸','🚀','🌍','💥','🦋','🐉','⚔️','🛡️','🌈','🎮','💫','🏆','👾','🌊','❄️','🌙','☀️','🦊','🐺','🦁','🤖','💎','🔮','🗡️','🦅','🐉','🌟'];
+const WORLDS=[
+  {name:'HYPERBLAST',color:'#ff4444',bg:'linear-gradient(135deg,#1a0000,#330011)'},
+  {name:'FLUFFLAND',color:'#ff96c8',bg:'linear-gradient(135deg,#1a0011,#0a001a)'},
+  {name:'KIDRISING',color:'#ffcc00',bg:'linear-gradient(135deg,#1a1100,#0a0800)'},
+  {name:'EPICWORLD',color:'#ff8800',bg:'linear-gradient(135deg,#1a0800,#0d0500)'},
+  {name:'PARLIAMENT',color:'#2255ff',bg:'linear-gradient(135deg,#00001a,#00000d)'},
+  {name:'NATION',color:'#00ffaa',bg:'linear-gradient(135deg,#001a0d,#000d08)'},
+  {name:'KIDFOREVER',color:'#bb33ff',bg:'linear-gradient(135deg,#0d001a,#06000d)'},
+  {name:'LEGEND',color:'#fff',bg:'linear-gradient(135deg,#1a1a00,#0d0d00)'},
+];
+const RARITIES=[
+  {name:'COMMON',color:'#888899',foil:false},
+  {name:'RARE',color:'#2255ff',foil:false},
+  {name:'EPIC',color:'#bb33ff',foil:true},
+  {name:'LEGENDARY',color:'#ffcc00',foil:true},
+];
+const ALL_CARDS=[
+  {name:'OLIVER',art:'⚡',world:2,rarity:3,atk:99,def:99,spd:99},
+  {name:'HYPERBOT',art:'🤖',world:0,rarity:2,atk:85,def:60,spd:75},
+  {name:'LUNA',art:'🦋',world:1,rarity:1,atk:40,def:70,spd:90},
+  {name:'BOBA',art:'🐺',world:1,rarity:1,atk:55,def:80,spd:65},
+  {name:'SHADOWKID',art:'👾',world:3,rarity:2,atk:78,def:55,spd:88},
+  {name:'STORMRIDER',art:'⚔️',world:3,rarity:2,atk:82,def:60,spd:72},
+  {name:'KID PRESIDENT',art:'👑',world:4,rarity:3,atk:70,def:90,spd:60},
+  {name:'CITIZEN #1',art:'🌍',world:5,rarity:3,atk:65,def:95,spd:65},
+  {name:'ZAPPER',art:'💥',world:0,rarity:0,atk:45,def:30,spd:70},
+  {name:'TANK BOT',art:'🛡️',world:0,rarity:1,atk:60,def:95,spd:25},
+  {name:'PICO',art:'🦅',world:1,rarity:2,atk:70,def:50,spd:95},
+  {name:'SHELLY',art:'🐢',world:1,rarity:0,atk:30,def:99,spd:20},
+  {name:'THE BOSS',art:'🐉',world:0,rarity:3,atk:99,def:88,spd:70},
+  {name:'KID SENATOR',art:'🏆',world:4,rarity:1,atk:50,def:75,spd:55},
+  {name:'PUFFBLAZE',art:'🔥',world:6,rarity:3,atk:95,def:70,spd:85},
+  {name:'HYPERBLAST',art:'🚀',world:0,rarity:2,atk:88,def:45,spd:99},
+  {name:'KID WIZARD',art:'🔮',world:6,rarity:2,atk:80,def:65,spd:75},
+  {name:'CRYSTAL KID',art:'💎',world:6,rarity:3,atk:75,def:85,spd:80},
+  {name:'MOONCHILD',art:'🌙',world:1,rarity:1,atk:50,def:60,spd:85},
+  {name:'SUNSTRIKE',art:'☀️',world:6,rarity:2,atk:88,def:55,spd:80},
+];
+
+const PACK_POOLS={
+  starter:ALL_CARDS,
+  hyperblast:ALL_CARDS.filter(c=>c.world===0||c.world===3),
+  fluffland:ALL_CARDS.filter(c=>c.world===1),
+  legendary:ALL_CARDS.filter(c=>c.rarity>=2),
+};
+
+let myCards=JSON.parse(localStorage.getItem('kfc_cards')||'[]');
+let myCoins=parseInt(localStorage.getItem('kfc_coins')||'0');
+let firstOpen=!localStorage.getItem('kfc_opened');
+
+// creator state
+let crArt=0,crWorld=0,crRarity=0;
+
+function makeCardHTML(card,small){
+  const w=WORLDS[card.world||0];const r=RARITIES[card.rarity||0];
+  const foilStyle=r.foil?'background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,200,0,0.08),rgba(200,100,255,0.08));':'';
+  const sz=small?'width:120px;height:168px;':'width:160px;height:224px;';
+  const fs=small?'2.5rem':'3.5rem';
+  const nfs=small?'0.48rem':'0.58rem';
+  return `<div class="card" style="${sz}" onclick="cardClick(this)">
+    <div class="card-inner" style="${w.bg};${foilStyle}">
+      <div class="card-shine"></div>
+      <div class="card-rarity" style="color:${r.color};">${r.name}${r.foil?' ✨':''}</div>
+      <div class="card-art" style="font-size:${fs};">${card.art}</div>
+      <div class="card-name" style="font-size:${nfs};">${card.name}</div>
+      <div class="card-world" style="color:${w.color};font-size:0.34rem;">${w.name}</div>
+      <div class="card-stats">
+        <div class="cs"><div class="cs-n" style="color:#ff4444;">${card.atk}</div><div class="cs-l">ATK</div></div>
+        <div class="cs"><div class="cs-n" style="color:#2255ff;">${card.def}</div><div class="cs-l">DEF</div></div>
+        <div class="cs"><div class="cs-n" style="color:#00ffaa;">${card.spd}</div><div class="cs-l">SPD</div></div>
+      </div>
+      <div class="card-border" style="border-color:${r.color}33;"></div>
+    </div>
+  </div>`;
+}
+
+function cardClick(el){el.style.transform=el.style.transform.includes('scale(1.15)')?'':'scale(1.15) rotate(-2deg)';}
+
+function renderCollection(){
+  const grid=document.getElementById('coll-grid');
+  document.getElementById('coll-count').textContent=myCards.length;
+  if(myCards.length===0){grid.innerHTML='<div style="text-align:center;padding:40px;font-size:0.6rem;color:#1a1a33;letter-spacing:3px;">OPEN A PACK TO START YOUR COLLECTION</div>';return;}
+  grid.innerHTML=myCards.map(c=>makeCardHTML(c,false)).join('');
+}
+
+function openPack(type){
+  const cost=type==='starter'?0:type==='legendary'?500:100;
+  if(cost>0&&myCoins<cost){alert('Not enough coins! You need '+cost+' 🪙');return;}
+  myCoins-=cost;
+  if(firstOpen){myCoins+=200;firstOpen=false;localStorage.setItem('kfc_opened','1');}
+  const pool=PACK_POOLS[type]||ALL_CARDS;
+  const cards=[];
+  for(let i=0;i<5;i++){
+    let c={...pool[Math.floor(Math.random()*pool.length)]};
+    // boost rarity for legendary pack
+    if(type==='legendary'&&c.rarity<2)c={...ALL_CARDS.filter(x=>x.rarity>=2)[Math.floor(Math.random()*ALL_CARDS.filter(x=>x.rarity>=2).length)]};
+    cards.push(c);
+  }
+  myCards.push(...cards);
+  saveData();
+  // show animation
+  document.getElementById('po-title').textContent=type==='legendary'?'🏆 LEGENDARY PULL!':'⚡ YOU GOT:';
+  document.getElementById('po-cards').innerHTML=cards.map(c=>makeCardHTML(c,true)).join('');
+  document.getElementById('pack-open').style.display='flex';
+}
+
+function closePack(){
+  document.getElementById('pack-open').style.display='none';
+  renderCollection();
+  updateCoinsUI();
+}
+
+function saveData(){
+  localStorage.setItem('kfc_cards',JSON.stringify(myCards));
+  localStorage.setItem('kfc_coins',myCoins);
+}
+function updateCoinsUI(){document.getElementById('nav-coins').textContent=myCoins;}
+
+// ── CREATOR ──
+function buildCreatorGrids(){
+  // art
+  document.getElementById('art-grid').innerHTML=ARTS.slice(0,12).map((a,i)=>`<div class="cr-opt${i===crArt?' sel':''}" onclick="selArt(${i})"><div class="cr-opt-icon">${a}</div><div class="cr-opt-lbl">${a}</div></div>`).join('');
+  // world
+  document.getElementById('world-grid').innerHTML=WORLDS.map((w,i)=>`<div class="cr-opt${i===crWorld?' sel':''}" onclick="selWorld(${i})" style="border-color:${i===crWorld?w.color:''}"><div class="cr-opt-icon" style="font-size:0.8rem;color:${w.color};">●</div><div class="cr-opt-lbl" style="color:${w.color};">${w.name}</div></div>`).join('');
+  // rarity
+  document.getElementById('rarity-grid').innerHTML=RARITIES.map((r,i)=>`<div class="cr-opt${i===crRarity?' sel':''}" onclick="selRarity(${i})"><div class="cr-opt-icon" style="font-size:0.8rem;color:${r.color};">★</div><div class="cr-opt-lbl" style="color:${r.color};">${r.name}</div></div>`).join('');
+  updatePreview();
+}
+function selArt(i){crArt=i;buildCreatorGrids();}
+function selWorld(i){crWorld=i;buildCreatorGrids();}
+function selRarity(i){crRarity=i;buildCreatorGrids();}
+function updatePreview(){
+  const name=document.getElementById('cr-name').value.trim()||'MY CARD';
+  const card={name:name.toUpperCase().slice(0,14),art:ARTS[crArt],world:crWorld,rarity:crRarity,atk:Math.floor(Math.random()*40+50),def:Math.floor(Math.random()*40+50),spd:Math.floor(Math.random()*40+50)};
+  document.getElementById('cr-preview').innerHTML=makeCardHTML(card,false);
+}
+function saveCard(){
+  const name=document.getElementById('cr-name').value.trim();
+  if(!name){alert('Give your card a name!');return;}
+  const card={name:name.toUpperCase().slice(0,14),art:ARTS[crArt],world:crWorld,rarity:crRarity,atk:Math.floor(Math.random()*40+50),def:Math.floor(Math.random()*40+50),spd:Math.floor(Math.random()*40+50),custom:true};
+  myCards.push(card);
+  myCoins+=50;
+  saveData();updateCoinsUI();renderCollection();
+  alert('⚡ Card added to your collection!\n+50 coins earned!');
+  showTab('collection');
+}
+
+// ── WANTED ──
+function renderWanted(){
+  const list=document.getElementById('wanted-list');
+  const wanted=ALL_CARDS.filter(c=>c.rarity>=2).slice(0,6);
+  list.innerHTML=wanted.map(c=>makeCardHTML(c,true)).join('');
+}
+
+function shareCollection(){
+  navigator.clipboard.writeText('Check out my KidForever Cards collection! 🃏⚡ Build yours free at oliveryvo-cmd.github.io/kidforever-cards/').then(()=>alert('Copied! Send it to your friends.'));
+}
+
+function printCards(){
+  const w=window.open('','_blank');
+  const cards=myCards.slice(0,9);
+  w.document.write(`<!DOCTYPE html><html><head><title>KidForever Cards — Print</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#fff;padding:20px;font-family:Arial,sans-serif;}.grid{display:grid;grid-template-columns:repeat(3,160px);gap:12px;}.card{width:160px;height:224px;border-radius:12px;border:2px solid #333;padding:10px;display:flex;flex-direction:column;background:#111;color:#fff;}.art{font-size:3rem;text-align:center;flex:1;display:flex;align-items:center;justify-content:center;}.name{font-size:0.6rem;font-weight:700;}.stats{display:flex;gap:4px;margin-top:6px;}.st{flex:1;text-align:center;font-size:0.5rem;}@media print{body{padding:0;}}</style></head><body><div class="grid">${cards.map(c=>`<div class="card"><div style="font-size:0.4rem;letter-spacing:3px;color:${RARITIES[c.rarity].color};">${RARITIES[c.rarity].name}</div><div class="art">${c.art}</div><div class="name">${c.name}</div><div style="font-size:0.35rem;color:#888;">${WORLDS[c.world].name}</div><div class="stats"><div class="st"><div style="color:#f44;">${c.atk}</div><div>ATK</div></div><div class="st"><div style="color:#44f;">${c.def}</div><div>DEF</div></div><div class="st"><div style="color:#0fa;">${c.spd}</div><div>SPD</div></div></div></div>`).join('')}</div></body></html>`);
+  setTimeout(()=>w.print(),500);
+}
+
+function showTab(tab,tabEl,bnEl){
+  ['collection','packs','create','trade'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.bn').forEach(t=>t.classList.remove('active'));
+  if(tabEl)tabEl.classList.add('active');
+  if(bnEl)bnEl.classList.add('active');
+  if(tab==='create')buildCreatorGrids();
+  if(tab==='trade')renderWanted();
+}
+
+function enterCards(){
+  document.getElementById('title').style.display='none';
+  document.getElementById('main').style.display='flex';
+  // give starter pack
+  openPack('starter');
+  renderCollection();updateCoinsUI();
+}
+
+// load saved
+if(myCards.length>0){
+  document.getElementById('title').style.display='none';
+  document.getElementById('main').style.display='flex';
+  renderCollection();updateCoinsUI();
+}
+</script>
+</body>
+</html>
