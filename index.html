@@ -125,8 +125,9 @@ nav{position:sticky;top:0;z-index:50;background:rgba(3,2,10,0.95);border-bottom:
     <div class="nav-coins">🪙 <span id="nav-coins">0</span> COINS</div>
   </nav>
   <div id="tabs">
-    <div class="tab active" onclick="showTab('collection',this)">✨ COLLECTION</div>
+    <div class="tab active" onclick="showTab('collection',this)">✨ COLLECT</div>
     <div class="tab" onclick="showTab('packs',this)">📦 PACKS</div>
+    <div class="tab" onclick="showTab('battle',this)">⚔️ BATTLE</div>
     <div class="tab" onclick="showTab('create',this)">🎨 CREATE</div>
     <div class="tab" onclick="showTab('trade',this)">🔄 TRADE</div>
   </div>
@@ -201,6 +202,68 @@ nav{position:sticky;top:0;z-index:50;background:rgba(3,2,10,0.95);border-bottom:
       </div>
     </div>
 
+    <!-- BATTLE -->
+    <div id="tab-battle" style="display:none;">
+      <div id="battle-setup">
+        <div class="section-hd">⚔️ PICK YOUR DECK — CHOOSE 3 CARDS</div>
+        <div style="font-size:0.48rem;letter-spacing:3px;color:#aaaabb;padding:0 16px 8px;">Tap cards to select them. Higher ATK, DEF and SPD wins.</div>
+        <div class="coll-grid" id="deck-picker"></div>
+        <div style="padding:16px;">
+          <div style="font-size:0.44rem;letter-spacing:4px;color:var(--gold);margin-bottom:8px;">YOUR DECK (<span id="deck-count">0</span>/3)</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;min-height:60px;margin-bottom:12px;" id="deck-display"></div>
+          <button style="width:100%;padding:15px;background:linear-gradient(135deg,var(--red),var(--purple));border:none;border-radius:14px;font-size:0.75rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#fff;font-family:inherit;" onclick="startBattle()">⚔️ BATTLE!</button>
+        </div>
+      </div>
+      <div id="battle-arena" style="display:none;padding:16px;">
+        <div style="text-align:center;margin-bottom:16px;">
+          <div style="font-size:0.44rem;letter-spacing:5px;color:var(--red);margin-bottom:4px;">ROUND <span id="battle-round">1</span></div>
+          <div style="font-size:0.55rem;letter-spacing:3px;color:#aaaabb;" id="battle-msg">Choose a card to play!</div>
+        </div>
+        <!-- HP bars -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+          <div>
+            <div style="font-size:0.4rem;letter-spacing:3px;color:var(--green);margin-bottom:4px;">YOU</div>
+            <div style="height:8px;background:rgba(0,255,170,0.15);border-radius:50px;overflow:hidden;"><div id="p-hp-bar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:50px;transition:width 0.4s;width:100%;"></div></div>
+            <div style="font-size:0.42rem;color:var(--green);margin-top:3px;"><span id="p-hp">3</span> cards left</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.4rem;letter-spacing:3px;color:var(--red);margin-bottom:4px;">OPPONENT</div>
+            <div style="height:8px;background:rgba(255,34,68,0.15);border-radius:50px;overflow:hidden;"><div id="e-hp-bar" style="height:100%;background:linear-gradient(90deg,var(--red),var(--purple));border-radius:50px;transition:width 0.4s;"></div></div>
+            <div style="font-size:0.42rem;color:var(--red);margin-top:3px;"><span id="e-hp">3</span> cards left</div>
+          </div>
+        </div>
+        <!-- battlefield -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div style="text-align:center;">
+            <div style="font-size:0.4rem;letter-spacing:3px;color:var(--green);margin-bottom:6px;">YOUR CARD</div>
+            <div id="p-card-slot" style="min-height:168px;display:flex;align-items:center;justify-content:center;background:rgba(0,255,170,0.04);border:1px dashed rgba(0,255,170,0.2);border-radius:16px;">
+              <div style="font-size:0.5rem;color:#1a1a33;letter-spacing:2px;">PICK A CARD</div>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:0.4rem;letter-spacing:3px;color:var(--red);margin-bottom:6px;">OPPONENT</div>
+            <div id="e-card-slot" style="min-height:168px;display:flex;align-items:center;justify-content:center;background:rgba(255,34,68,0.04);border:1px dashed rgba(255,34,68,0.2);border-radius:16px;">
+              <div style="font-size:2rem;">❓</div>
+            </div>
+          </div>
+        </div>
+        <!-- your hand -->
+        <div style="font-size:0.4rem;letter-spacing:4px;color:#1a1a33;margin-bottom:8px;">YOUR HAND — TAP TO PLAY</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;" id="p-hand"></div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button id="battle-action-btn" style="flex:1;padding:14px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:12px;font-size:0.68rem;font-weight:900;letter-spacing:3px;cursor:pointer;color:#000;font-family:inherit;display:none;" onclick="resolveRound()">⚔️ FIGHT!</button>
+          <button id="battle-next-btn" style="flex:1;padding:14px;background:linear-gradient(135deg,var(--purple),var(--blue));border:none;border-radius:12px;font-size:0.68rem;font-weight:900;letter-spacing:3px;cursor:pointer;color:#fff;font-family:inherit;display:none;" onclick="nextRound()">NEXT ROUND ▶</button>
+        </div>
+      </div>
+      <div id="battle-result" style="display:none;padding:32px;text-align:center;">
+        <div style="font-size:clamp(2rem,10vw,4rem);font-weight:900;letter-spacing:4px;margin-bottom:8px;" id="result-title">WIN!</div>
+        <div style="font-size:0.6rem;color:#aaaabb;margin-bottom:8px;" id="result-msg"></div>
+        <div style="font-size:1.5rem;font-weight:900;color:var(--gold);margin-bottom:20px;" id="result-coins"></div>
+        <button style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:12px;font-size:0.72rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#000;font-family:inherit;margin-bottom:8px;" onclick="startBattleSetup()">⚔️ BATTLE AGAIN</button>
+        <button style="width:100%;padding:14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:0.62rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:var(--gold);font-family:inherit;" onclick="showTab('packs')">📦 OPEN A PACK</button>
+      </div>
+    </div>
+
     <!-- TRADE -->
     <div id="tab-trade" style="display:none;">
       <div class="section-hd">🔄 TRADE CARDS</div>
@@ -222,8 +285,9 @@ nav{position:sticky;top:0;z-index:50;background:rgba(3,2,10,0.95);border-bottom:
   </div>
 
   <div id="bnav">
-    <div class="bn active" onclick="showTab('collection',null,this)"><div class="bn-i">✨</div><div class="bn-l">COLLECTION</div></div>
+    <div class="bn active" onclick="showTab('collection',null,this)"><div class="bn-i">✨</div><div class="bn-l">COLLECT</div></div>
     <div class="bn" onclick="showTab('packs',null,this)"><div class="bn-i">📦</div><div class="bn-l">PACKS</div></div>
+    <div class="bn" onclick="showTab('battle',null,this)"><div class="bn-i">⚔️</div><div class="bn-l">BATTLE</div></div>
     <div class="bn" onclick="showTab('create',null,this)"><div class="bn-i">🎨</div><div class="bn-l">CREATE</div></div>
     <div class="bn" onclick="showTab('trade',null,this)"><div class="bn-i">🔄</div><div class="bn-l">TRADE</div></div>
   </div>
@@ -402,14 +466,181 @@ function printCards(){
   setTimeout(()=>w.print(),500);
 }
 
+// ── BATTLE ──
+let myDeck=[],enemyDeck=[],pHand=[],eHand=[],pSelected=null,eSelected=null,battleRound=1,pWins=0,eWins=0;
+const OPPONENTS=[
+  {name:'SHADOWKID',deck:[ALL_CARDS[4],ALL_CARDS[8],ALL_CARDS[9]]},
+  {name:'TANK MASTER',deck:[ALL_CARDS[9],ALL_CARDS[6],ALL_CARDS[3]]},
+  {name:'SPEED DEMON',deck:[ALL_CARDS[10],ALL_CARDS[2],ALL_CARDS[15]]},
+  {name:'THE BOSS',deck:[ALL_CARDS[12],ALL_CARDS[1],ALL_CARDS[14]]},
+];
+
+function startBattleSetup(){
+  myDeck=[];
+  document.getElementById('battle-setup').style.display='block';
+  document.getElementById('battle-arena').style.display='none';
+  document.getElementById('battle-result').style.display='none';
+  const picker=document.getElementById('deck-picker');
+  const pool=myCards.length>=3?myCards:myCards.concat(ALL_CARDS).slice(0,6);
+  picker.innerHTML=pool.map((c,i)=>`<div class="card" style="width:120px;height:168px;opacity:1;transition:opacity 0.2s;" id="pick-${i}" onclick="toggleDeck(${i})">
+    <div class="card-inner" style="${WORLDS[c.world||0].bg};">
+      <div class="card-shine"></div>
+      <div class="card-rarity" style="color:${RARITIES[c.rarity||0].color};font-size:0.32rem;letter-spacing:3px;">${RARITIES[c.rarity||0].name}</div>
+      <div class="card-art" style="font-size:2.5rem;">${c.art}</div>
+      <div class="card-name" style="font-size:0.48rem;font-weight:900;color:#fff;">${c.name}</div>
+      <div class="card-stats" style="display:flex;gap:4px;margin-top:4px;">
+        <div class="cs"><div class="cs-n" style="color:#ff4444;font-size:0.55rem;">${c.atk}</div><div class="cs-l">ATK</div></div>
+        <div class="cs"><div class="cs-n" style="color:#2255ff;font-size:0.55rem;">${c.def}</div><div class="cs-l">DEF</div></div>
+        <div class="cs"><div class="cs-n" style="color:#00ffaa;font-size:0.55rem;">${c.spd}</div><div class="cs-l">SPD</div></div>
+      </div>
+      <div class="card-border" style="border-color:${RARITIES[c.rarity||0].color}33;"></div>
+    </div>
+  </div>`).join('');
+  updateDeckDisplay();
+}
+
+function toggleDeck(i){
+  const pool=myCards.length>=3?myCards:myCards.concat(ALL_CARDS).slice(0,6);
+  const card=pool[i];
+  const idx=myDeck.findIndex(c=>c.name===card.name);
+  if(idx>=0){myDeck.splice(idx,1);document.getElementById('pick-'+i).style.outline='';}
+  else if(myDeck.length<3){myDeck.push({...card});document.getElementById('pick-'+i).style.outline='3px solid var(--gold)';}
+  updateDeckDisplay();
+}
+function updateDeckDisplay(){
+  document.getElementById('deck-count').textContent=myDeck.length;
+  document.getElementById('deck-display').innerHTML=myDeck.map(c=>`<div style="font-size:1.5rem;">${c.art}</div>`).join('');
+}
+
+function startBattle(){
+  if(myDeck.length<3){alert('Pick 3 cards first!');return;}
+  const opp=OPPONENTS[Math.floor(Math.random()*OPPONENTS.length)];
+  pHand=[...myDeck];eHand=[...opp.deck];
+  battleRound=1;pWins=0;eWins=0;pSelected=null;
+  document.getElementById('battle-setup').style.display='none';
+  document.getElementById('battle-arena').style.display='block';
+  document.getElementById('battle-result').style.display='none';
+  document.getElementById('battle-round').textContent=battleRound;
+  document.getElementById('battle-msg').textContent='Pick a card to play against '+opp.name+'!';
+  renderHand();updateBattleHP();
+}
+
+function renderHand(){
+  document.getElementById('p-hand').innerHTML=pHand.map((c,i)=>`<div onclick="selectCard(${i})" style="cursor:pointer;transform:${pSelected===i?'scale(1.1) translateY(-8px)':''};transition:transform 0.2s;">
+    ${makeCardHTML(c,true)}
+  </div>`).join('');
+  document.getElementById('battle-action-btn').style.display=pSelected!==null?'block':'none';
+}
+
+function selectCard(i){
+  pSelected=i;
+  renderHand();
+  document.getElementById('p-card-slot').innerHTML=makeCardHTML(pHand[i],true);
+}
+
+function resolveRound(){
+  if(pSelected===null)return;
+  const pc=pHand[pSelected];
+  const ec=eHand[Math.floor(Math.random()*eHand.length)];
+  document.getElementById('e-card-slot').innerHTML=makeCardHTML(ec,true);
+
+  // calc winner: SPD decides who attacks first, ATK vs DEF
+  const pGoesFirst=pc.spd>=ec.spd;
+  let pDmg=Math.max(1,pc.atk-Math.floor(ec.def/2));
+  let eDmg=Math.max(1,ec.atk-Math.floor(pc.def/2));
+  // legendary/epic bonus
+  if(pc.rarity>=2)pDmg=Math.floor(pDmg*1.3);
+  if(ec.rarity>=2)eDmg=Math.floor(eDmg*1.3);
+
+  let roundWinner;
+  if(pGoesFirst){roundWinner=pDmg>eDmg?'player':'enemy';}
+  else{roundWinner=eDmg>pDmg?'enemy':'player';}
+  if(pDmg===eDmg)roundWinner='tie';
+
+  let msg='';
+  if(roundWinner==='player'){
+    pWins++;
+    msg=`⚡ ${pc.name} (${pDmg} DMG) BEATS ${ec.name} (${eDmg} DMG)! You win this round!`;
+    pHand.splice(pSelected,1);
+    eHand.splice(eHand.indexOf(ec),1);
+  } else if(roundWinner==='enemy'){
+    msg=`💥 ${ec.name} (${eDmg} DMG) BEATS ${pc.name} (${pDmg} DMG)! Opponent wins this round!`;
+    pHand.splice(pSelected,1);
+    eHand.splice(eHand.indexOf(ec),1);
+  } else {
+    msg=`🤝 TIE! Both cards clash and cancel out!`;
+    pHand.splice(pSelected,1);
+    eHand.splice(eHand.indexOf(ec),1);
+  }
+
+  pSelected=null;
+  document.getElementById('battle-msg').textContent=msg;
+  document.getElementById('battle-action-btn').style.display='none';
+  document.getElementById('battle-next-btn').style.display='block';
+  updateBattleHP();
+}
+
+function updateBattleHP(){
+  document.getElementById('p-hp').textContent=pHand.length;
+  document.getElementById('e-hp').textContent=eHand.length;
+  document.getElementById('p-hp-bar').style.width=(pHand.length/3*100)+'%';
+  document.getElementById('e-hp-bar').style.width=(eHand.length/3*100)+'%';
+}
+
+function nextRound(){
+  document.getElementById('battle-next-btn').style.display='none';
+  document.getElementById('p-card-slot').innerHTML='<div style="font-size:0.5rem;color:#1a1a33;letter-spacing:2px;">PICK A CARD</div>';
+  document.getElementById('e-card-slot').innerHTML='<div style="font-size:2rem;">❓</div>';
+
+  if(pHand.length===0||eHand.length===0){
+    endBattle();return;
+  }
+  battleRound++;
+  document.getElementById('battle-round').textContent=battleRound;
+  document.getElementById('battle-msg').textContent='Pick a card for round '+battleRound+'!';
+  renderHand();
+}
+
+function endBattle(){
+  const playerWon=pHand.length>eHand.length||(pHand.length===0&&eHand.length===0&&pWins>0);
+  const tied=pHand.length===eHand.length;
+  document.getElementById('battle-arena').style.display='none';
+  document.getElementById('battle-result').style.display='block';
+  let coins=0;
+  if(playerWon){
+    coins=150+battleRound*20;
+    document.getElementById('result-title').textContent='⚡ YOU WIN!';
+    document.getElementById('result-title').style.background='linear-gradient(135deg,#ffcc00,#00ffaa)';
+    document.getElementById('result-title').style.webkitBackgroundClip='text';
+    document.getElementById('result-title').style.webkitTextFillColor='transparent';
+    document.getElementById('result-msg').textContent='Amazing battle! You crushed the opponent!';
+  } else if(tied){
+    coins=50;
+    document.getElementById('result-title').textContent='🤝 TIE!';
+    document.getElementById('result-title').style.color='#aaaabb';
+    document.getElementById('result-msg').textContent='So close! Try again for the win!';
+  } else {
+    coins=30;
+    document.getElementById('result-title').textContent='💥 YOU LOST!';
+    document.getElementById('result-title').style.background='linear-gradient(135deg,#ff2244,#bb33ff)';
+    document.getElementById('result-title').style.webkitBackgroundClip='text';
+    document.getElementById('result-title').style.webkitTextFillColor='transparent';
+    document.getElementById('result-msg').textContent='Good fight! Open more packs to get stronger cards!';
+  }
+  myCoins+=coins;
+  saveData();updateCoinsUI();
+  document.getElementById('result-coins').textContent='+'+coins+' 🪙 COINS EARNED!';
+}
+
 function showTab(tab,tabEl,bnEl){
-  ['collection','packs','create','trade'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+  ['collection','packs','battle','create','trade'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.bn').forEach(t=>t.classList.remove('active'));
   if(tabEl)tabEl.classList.add('active');
   if(bnEl)bnEl.classList.add('active');
   if(tab==='create')buildCreatorGrids();
   if(tab==='trade')renderWanted();
+  if(tab==='battle')startBattleSetup();
 }
 
 function enterCards(){
