@@ -81,10 +81,27 @@ nav{position:sticky;top:0;z-index:50;background:rgba(3,2,10,0.95);border-bottom:
 .trade-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
 
 /* OPEN PACK ANIMATION */
-#pack-open{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;}
-.po-title{font-size:clamp(1.5rem,8vw,3rem);font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,var(--gold),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;}
-.po-cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;}
-.po-btn{padding:14px 48px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:50px;font-size:0.8rem;font-weight:900;letter-spacing:5px;cursor:pointer;color:#000;font-family:inherit;}
+#pack-open{position:fixed;inset:0;z-index:200;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;overflow:hidden;}
+#pack-open canvas{position:absolute;inset:0;pointer-events:none;}
+.po-title{font-size:clamp(1.5rem,8vw,3rem);font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,var(--gold),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;position:relative;z-index:2;}
+.po-cards{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;position:relative;z-index:2;}
+.po-btn{padding:14px 48px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:50px;font-size:0.8rem;font-weight:900;letter-spacing:5px;cursor:pointer;color:#000;font-family:inherit;position:relative;z-index:2;}
+/* pack reveal stages */
+#pack-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;}
+#pack-visual{width:140px;height:196px;border-radius:16px;cursor:pointer;position:relative;margin-bottom:20px;transition:transform 0.3s;}
+#pack-visual:hover{transform:scale(1.05);}
+#pack-visual-inner{width:100%;height:100%;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;}
+.pack-glow{position:absolute;inset:0;border-radius:16px;animation:packglow 1.5s ease-in-out infinite;}
+@keyframes packglow{0%,100%{box-shadow:inset 0 0 30px rgba(255,204,0,0.3),0 0 40px rgba(255,204,0,0.4);}50%{box-shadow:inset 0 0 60px rgba(255,204,0,0.6),0 0 80px rgba(255,204,0,0.8);}}
+#tap-hint{font-size:0.5rem;letter-spacing:4px;color:#aaaabb;animation:blink 1.2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+/* card flip */
+.flip-card{perspective:600px;width:120px;height:168px;}
+.flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);}
+.flip-inner.flipped{transform:rotateY(180deg);}
+.flip-front,.flip-back{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;}
+.flip-front{background:linear-gradient(135deg,#0a0820,#1a0a2a);border:2px solid rgba(255,204,0,0.3);display:flex;align-items:center;justify-content:center;font-size:2.5rem;}
+.flip-back{transform:rotateY(180deg);}
 
 /* BOTTOM NAV */
 #bnav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(3,2,10,0.97);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;justify-content:space-around;padding:10px 0 14px;}
@@ -112,9 +129,31 @@ nav{position:sticky;top:0;z-index:50;background:rgba(3,2,10,0.95);border-bottom:
 
 <!-- PACK OPEN -->
 <div id="pack-open">
-  <div class="po-title" id="po-title">YOU GOT:</div>
-  <div class="po-cards" id="po-cards"></div>
-  <button class="po-btn" onclick="closePack()">✨ ADD TO COLLECTION</button>
+  <canvas id="pack-canvas"></canvas>
+  <!-- STAGE 1: tap the pack -->
+  <div id="pack-stage">
+    <div class="po-title" id="po-title">⚡ NEW PACK!</div>
+    <div id="pack-visual" onclick="revealNextCard()">
+      <div id="pack-visual-inner">
+        <div class="pack-glow"></div>
+        <div style="font-size:3rem;position:relative;z-index:1;" id="pack-emoji">⚡</div>
+        <div style="font-size:0.55rem;font-weight:900;letter-spacing:3px;color:#fff;position:relative;z-index:1;" id="pack-label">PACK</div>
+      </div>
+    </div>
+    <div id="tap-hint">TAP TO OPEN</div>
+  </div>
+  <!-- STAGE 2: flip cards one by one -->
+  <div id="reveal-stage" style="display:none;flex-direction:column;align-items:center;position:relative;z-index:2;">
+    <div class="po-title" id="reveal-title">CARD 1 OF 5</div>
+    <div id="flip-area" style="margin-bottom:20px;"></div>
+    <button id="reveal-btn" style="padding:13px 44px;background:linear-gradient(135deg,var(--gold),var(--red));border:none;border-radius:50px;font-size:0.75rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#000;font-family:inherit;" onclick="revealNextCard()">TAP TO REVEAL ✨</button>
+  </div>
+  <!-- STAGE 3: all cards -->
+  <div id="all-stage" style="display:none;flex-direction:column;align-items:center;position:relative;z-index:2;">
+    <div class="po-title">YOU GOT:</div>
+    <div class="po-cards" id="po-cards"></div>
+    <button class="po-btn" onclick="closePack()">✨ ADD TO COLLECTION</button>
+  </div>
 </div>
 
 <!-- MAIN -->
@@ -386,6 +425,74 @@ function renderCollection(){
   grid.innerHTML=myCards.map(c=>makeCardHTML(c,false)).join('');
 }
 
+// ── PACK ANIMATION ──
+let packParticles=[],packAnimFrame=null,packCards=[],revealIdx=0;
+function runPackCanvas(){
+  const cv=document.getElementById('pack-canvas');
+  cv.width=innerWidth;cv.height=innerHeight;
+  const cx=cv.getContext('2d');
+  packParticles=[];
+  for(let i=0;i<80;i++)packParticles.push({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-0.5)*3,vy:(Math.random()-0.5)*3,r:Math.random()*4+1,color:['#ffcc00','#ff2244','#bb33ff','#00ffaa','#fff'][Math.floor(Math.random()*5)],life:1});
+  function frame(){
+    cv.clearRect(0,0,cv.width,cv.height);
+    packParticles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.05;p.life-=0.008;p.r*=0.995;cx.globalAlpha=Math.max(0,p.life);cx.fillStyle=p.color;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fill();});
+    packParticles=packParticles.filter(p=>p.life>0);
+    if(Math.random()<0.3)packParticles.push({x:Math.random()*cv.width,y:-10,vx:(Math.random()-0.5)*2,vy:Math.random()*2+1,r:Math.random()*3+1,color:['#ffcc00','#ff2244','#bb33ff','#00ffaa'][Math.floor(Math.random()*4)],life:1});
+    cx.globalAlpha=1;
+    packAnimFrame=requestAnimationFrame(frame);
+  }
+  frame();
+}
+function stopPackCanvas(){if(packAnimFrame)cancelAnimationFrame(packAnimFrame);packAnimFrame=null;}
+
+function showPackScreen(type,cards){
+  packCards=cards;revealIdx=0;
+  const icons={starter:'⚡',hyperblast:'🔥',fluffland:'🌸',legendary:'👑'};
+  const labels={starter:'STARTER PACK',hyperblast:'HYPERBLAST PACK',fluffland:'FLUFFLAND PACK',legendary:'LEGENDARY PACK'};
+  document.getElementById('pack-emoji').textContent=icons[type]||'⚡';
+  document.getElementById('pack-label').textContent=labels[type]||'PACK';
+  document.getElementById('po-title').textContent=labels[type]||'NEW PACK!';
+  document.getElementById('pack-stage').style.display='flex';
+  document.getElementById('reveal-stage').style.display='none';
+  document.getElementById('all-stage').style.display='none';
+  document.getElementById('pack-open').style.display='flex';
+  runPackCanvas();
+}
+
+function revealNextCard(){
+  if(revealIdx===0){
+    // switch from pack to reveal stage
+    document.getElementById('pack-stage').style.display='none';
+    document.getElementById('reveal-stage').style.display='flex';
+  }
+  if(revealIdx>=packCards.length){
+    // show all
+    document.getElementById('reveal-stage').style.display='none';
+    document.getElementById('all-stage').style.display='flex';
+    document.getElementById('po-cards').innerHTML=packCards.map(c=>makeCardHTML(c,true)).join('');
+    return;
+  }
+  const card=packCards[revealIdx];
+  const r=RARITIES[card.rarity||0];
+  document.getElementById('reveal-title').textContent=`CARD ${revealIdx+1} OF ${packCards.length}`;
+  // show flip card — front first, then flip to reveal
+  document.getElementById('flip-area').innerHTML=`<div class="flip-card"><div class="flip-inner" id="flipper"><div class="flip-front">🂠</div><div class="flip-back">${makeCardHTML(card,true)}</div></div></div>`;
+  // add glow based on rarity
+  document.getElementById('flip-area').style.filter=r.foil?`drop-shadow(0 0 20px ${r.color})`:'none';
+  setTimeout(()=>{
+    const fl=document.getElementById('flipper');
+    if(fl){fl.classList.add('flipped');}
+    // burst particles for epic/legendary
+    if(card.rarity>=2){
+      const cv=document.getElementById('pack-canvas');
+      for(let i=0;i<40;i++)packParticles.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-0.5)*12,vy:(Math.random()-0.5)*12,r:Math.random()*6+2,color:r.color,life:1});
+    }
+  },200);
+  revealIdx++;
+  const btn=document.getElementById('reveal-btn');
+  btn.textContent=revealIdx>=packCards.length?'SEE ALL CARDS ✨':'NEXT CARD ▶';
+}
+
 function openPack(type){
   const cost=type==='starter'?0:type==='legendary'?500:100;
   if(cost>0&&myCoins<cost){alert('Not enough coins! You need '+cost+' 🪙');return;}
@@ -401,13 +508,11 @@ function openPack(type){
   }
   myCards.push(...cards);
   saveData();
-  // show animation
-  document.getElementById('po-title').textContent=type==='legendary'?'🏆 LEGENDARY PULL!':'⚡ YOU GOT:';
-  document.getElementById('po-cards').innerHTML=cards.map(c=>makeCardHTML(c,true)).join('');
-  document.getElementById('pack-open').style.display='flex';
+  showPackScreen(type,cards);
 }
 
 function closePack(){
+  stopPackCanvas();
   document.getElementById('pack-open').style.display='none';
   renderCollection();
   updateCoinsUI();
