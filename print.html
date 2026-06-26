@@ -8,30 +8,27 @@
 body{background:#fff;font-family:'Segoe UI',Arial,sans-serif;padding:20px;}
 h1{font-size:1rem;margin-bottom:4px;color:#333;}
 p{font-size:0.7rem;color:#666;margin-bottom:16px;}
-.sheet{display:grid;grid-template-columns:repeat(3,160px);grid-template-rows:repeat(3,224px);gap:8px;justify-content:center;}
-.card{width:160px;height:224px;border-radius:12px;border:2px solid #222;padding:10px;display:flex;flex-direction:column;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-.card-shine{position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.12) 50%,transparent 60%);pointer-events:none;}
-.rarity{font-size:6px;letter-spacing:3px;margin-bottom:4px;}
-.art{flex:1;display:flex;align-items:center;justify-content:center;font-size:52px;}
-.name{font-size:9px;font-weight:900;letter-spacing:2px;color:#fff;margin-bottom:2px;}
-.world{font-size:6px;letter-spacing:3px;opacity:0.8;margin-bottom:5px;}
-.stats{display:flex;gap:4px;}
+.sheet{display:grid;grid-template-columns:repeat(3,160px);gap:8px;justify-content:center;margin-bottom:16px;}
+.card{width:160px;height:224px;border-radius:12px;border:2px solid #222;padding:8px 8px 6px;display:flex;flex-direction:column;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.card-shine{position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.14) 50%,transparent 60%);pointer-events:none;z-index:2;}
+.rarity{font-size:6px;letter-spacing:3px;margin-bottom:3px;position:relative;z-index:3;}
+.art{flex:1;display:flex;align-items:center;justify-content:center;position:relative;z-index:3;}
+.art svg{width:100%;height:100%;max-height:110px;}
+.name{font-size:9px;font-weight:900;letter-spacing:2px;color:#fff;margin-bottom:1px;position:relative;z-index:3;}
+.world{font-size:6px;letter-spacing:3px;opacity:0.8;margin-bottom:4px;position:relative;z-index:3;}
+.stats{display:flex;gap:4px;position:relative;z-index:3;}
 .st{flex:1;text-align:center;}
-.st-n{font-size:10px;font-weight:900;color:#fff;}
+.st-n{font-size:10px;font-weight:900;}
 .st-l{font-size:5px;letter-spacing:1px;opacity:0.7;color:#fff;}
-.card-border{position:absolute;inset:0;border-radius:12px;border:2px solid rgba(255,255,255,0.2);pointer-events:none;}
-.logo{position:absolute;bottom:4px;right:6px;font-size:5px;letter-spacing:2px;opacity:0.5;color:#fff;}
-
-/* CARD BACKS */
+.card-border{position:absolute;inset:0;border-radius:12px;border:2px solid rgba(255,255,255,0.2);pointer-events:none;z-index:4;}
+.logo{position:absolute;bottom:4px;right:6px;font-size:5px;letter-spacing:2px;opacity:0.5;color:#fff;z-index:5;}
 .back{background:linear-gradient(135deg,#03020a,#0d0020);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-.back-logo{font-size:28px;margin-bottom:6px;}
+.back-logo{margin-bottom:6px;}
 .back-name{font-size:10px;font-weight:900;letter-spacing:4px;color:#ffcc00;margin-bottom:3px;}
 .back-sub{font-size:6px;letter-spacing:3px;color:#333355;}
 .back-border{position:absolute;inset:4px;border-radius:10px;border:1px solid rgba(255,204,0,0.3);}
-
 .cut-line{border:1px dashed #ddd;margin:12px 0;}
 .instructions{font-size:0.65rem;color:#888;margin:8px 0;text-align:center;}
-
 @media print{
   body{padding:8px;}
   h1,p,.instructions,.no-print{display:none;}
@@ -42,167 +39,557 @@ p{font-size:0.7rem;color:#666;margin-bottom:16px;}
 <body>
 
 <h1>KidForever Cards — Print Sheet</h1>
-<p>Print on cardstock. Cut along the dotted lines. Put 5 cards in an envelope. Sell for $5 each.</p>
+<p>Print on cardstock. Cut out each card. Put 5 in an envelope. Sell for $5.</p>
 <button class="no-print" onclick="window.print()" style="margin-bottom:16px;padding:10px 28px;background:linear-gradient(135deg,#ffcc00,#ff2244);border:none;border-radius:50px;font-size:0.8rem;font-weight:900;cursor:pointer;">🖨️ PRINT NOW</button>
 
-<!-- FRONT SHEET -->
-<div class="instructions">✂️ CARD FRONTS — Cut along dotted lines</div>
+<div class="instructions">✂️ CARD FRONTS</div>
 <div class="sheet">
 
-  <!-- OLIVER — Legendary -->
-  <div class="card" style="background:linear-gradient(135deg,#1a1100,#0a0800);">
-    <div class="card-shine"></div>
-    <div class="rarity" style="color:#ffcc00;">LEGENDARY ✨</div>
-    <div class="art">⚡</div>
-    <div class="name">OLIVER</div>
-    <div class="world" style="color:#ffcc00;">KIDRISING</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">99</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">99</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">99</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#ffcc0055;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- OLIVER — Legendary -->
+<div class="card" style="background:linear-gradient(160deg,#1a1000,#2a1800,#0a0500);">
+  <div class="card-shine"></div>
+  <div class="rarity" style="color:#ffcc00;">LEGENDARY ✦</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <!-- glow -->
+      <ellipse cx="50" cy="100" rx="30" ry="6" fill="#ffcc00" opacity="0.3"/>
+      <!-- cape -->
+      <path d="M30 60 Q20 90 15 105 Q50 95 85 105 Q80 90 70 60Z" fill="#ffaa00" opacity="0.9"/>
+      <!-- body -->
+      <rect x="36" y="52" width="28" height="34" rx="6" fill="#ffd700"/>
+      <!-- star on chest -->
+      <polygon points="50,57 52,63 58,63 53,67 55,73 50,69 45,73 47,67 42,63 48,63" fill="#ff2244"/>
+      <!-- head -->
+      <circle cx="50" cy="42" r="16" fill="#ffe0b2"/>
+      <!-- hair -->
+      <path d="M34 38 Q36 20 50 22 Q64 20 66 38 Q60 28 50 30 Q40 28 34 38Z" fill="#4a2800"/>
+      <!-- eyes -->
+      <ellipse cx="44" cy="42" rx="3" ry="3.5" fill="#222"/>
+      <ellipse cx="56" cy="42" rx="3" ry="3.5" fill="#222"/>
+      <circle cx="45" cy="41" r="1" fill="#fff"/>
+      <circle cx="57" cy="41" r="1" fill="#fff"/>
+      <!-- smile -->
+      <path d="M44 48 Q50 53 56 48" stroke="#c8703a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- lightning bolt arms -->
+      <path d="M36 58 L20 68 L26 70 L16 85 L24 82 L18 95" stroke="#ffcc00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M64 58 L80 68 L74 70 L84 85 L76 82 L82 95" stroke="#ffcc00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- crown -->
+      <path d="M36 34 L38 22 L44 30 L50 18 L56 30 L62 22 L64 34Z" fill="#ffcc00"/>
+      <circle cx="50" cy="20" r="3" fill="#ff2244"/>
+      <circle cx="38" cy="24" r="2" fill="#ff2244"/>
+      <circle cx="62" cy="24" r="2" fill="#ff2244"/>
+    </svg>
   </div>
+  <div class="name">OLIVER</div>
+  <div class="world" style="color:#ffcc00;">KIDRISING</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">99</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">99</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">99</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#ffcc0066;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- THE BOSS — Legendary -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0000,#330011);">
-    <div class="card-shine"></div>
-    <div class="rarity" style="color:#ffcc00;">LEGENDARY ✨</div>
-    <div class="art">🐉</div>
-    <div class="name">THE BOSS</div>
-    <div class="world" style="color:#ff4444;">HYPERBLAST</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">99</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">88</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">70</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#ffcc0055;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- THE BOSS — Legendary -->
+<div class="card" style="background:linear-gradient(160deg,#1a0000,#2d0010,#0a0005);">
+  <div class="card-shine"></div>
+  <div class="rarity" style="color:#ffcc00;">LEGENDARY ✦</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <!-- glow -->
+      <ellipse cx="50" cy="104" rx="35" ry="5" fill="#ff2244" opacity="0.4"/>
+      <!-- tail -->
+      <path d="M70 80 Q90 70 95 55 Q98 40 88 35 Q80 45 75 60Z" fill="#8b0000" opacity="0.9"/>
+      <!-- body -->
+      <ellipse cx="48" cy="75" rx="28" ry="22" fill="#cc1122"/>
+      <!-- belly -->
+      <ellipse cx="48" cy="78" rx="18" ry="14" fill="#ff6644" opacity="0.6"/>
+      <!-- wings -->
+      <path d="M20 60 Q5 40 15 25 Q28 35 30 55Z" fill="#8b0000"/>
+      <path d="M76 60 Q91 40 81 25 Q68 35 66 55Z" fill="#8b0000"/>
+      <path d="M20 60 Q5 40 15 25 Q28 35 30 55Z" fill="#ff2244" opacity="0.4"/>
+      <!-- neck + head -->
+      <path d="M40 55 Q45 35 50 30 Q55 35 60 55Z" fill="#cc1122"/>
+      <ellipse cx="50" cy="28" rx="18" ry="15" fill="#cc1122"/>
+      <!-- horns -->
+      <polygon points="40,16 36,4 44,14" fill="#880000"/>
+      <polygon points="60,16 64,4 56,14" fill="#880000"/>
+      <!-- eyes -->
+      <ellipse cx="44" cy="26" rx="5" ry="6" fill="#ff8800"/>
+      <ellipse cx="56" cy="26" rx="5" ry="6" fill="#ff8800"/>
+      <ellipse cx="44" cy="27" rx="2.5" ry="3.5" fill="#111"/>
+      <ellipse cx="56" cy="27" rx="2.5" ry="3.5" fill="#111"/>
+      <circle cx="43" cy="25" r="1" fill="#fff"/>
+      <circle cx="55" cy="25" r="1" fill="#fff"/>
+      <!-- fire breath -->
+      <path d="M50 37 Q44 44 38 50 Q46 47 50 52 Q54 47 62 50 Q56 44 50 37Z" fill="#ffcc00" opacity="0.9"/>
+      <!-- claws -->
+      <path d="M20 88 L12 96 M24 92 L18 100 M28 94 L24 102" stroke="#880000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M76 88 L84 96 M72 92 L78 100 M68 94 L72 102" stroke="#880000" stroke-width="2" stroke-linecap="round"/>
+    </svg>
   </div>
+  <div class="name">THE BOSS</div>
+  <div class="world" style="color:#ff4444;">HYPERBLAST</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">99</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">88</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">70</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#ffcc0066;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- PUFFBLAZE — Legendary -->
-  <div class="card" style="background:linear-gradient(135deg,#0d001a,#06000d);">
-    <div class="card-shine"></div>
-    <div class="rarity" style="color:#ffcc00;">LEGENDARY ✨</div>
-    <div class="art">🔥</div>
-    <div class="name">PUFFBLAZE</div>
-    <div class="world" style="color:#bb33ff;">KIDFOREVER</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">95</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">70</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">85</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#ffcc0055;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- PUFFBLAZE — Legendary -->
+<div class="card" style="background:linear-gradient(160deg,#0d0018,#1a0030,#06000f);">
+  <div class="card-shine"></div>
+  <div class="rarity" style="color:#ffcc00;">LEGENDARY ✦</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <!-- glow -->
+      <ellipse cx="50" cy="104" rx="32" ry="5" fill="#bb33ff" opacity="0.4"/>
+      <!-- flame aura rings -->
+      <ellipse cx="50" cy="65" rx="36" ry="36" fill="none" stroke="#ff4400" stroke-width="2" opacity="0.2"/>
+      <ellipse cx="50" cy="65" rx="30" ry="30" fill="none" stroke="#ff8800" stroke-width="2" opacity="0.3"/>
+      <!-- body - round fluffy creature -->
+      <circle cx="50" cy="68" r="28" fill="#cc44ff"/>
+      <!-- fluffy texture -->
+      <circle cx="32" cy="55" r="10" fill="#bb33ee"/>
+      <circle cx="68" cy="55" r="10" fill="#bb33ee"/>
+      <circle cx="50" cy="48" r="10" fill="#bb33ee"/>
+      <circle cx="30" cy="72" r="8" fill="#bb33ee"/>
+      <circle cx="70" cy="72" r="8" fill="#bb33ee"/>
+      <!-- belly -->
+      <ellipse cx="50" cy="72" rx="16" ry="13" fill="#ffaaff" opacity="0.5"/>
+      <!-- face -->
+      <circle cx="43" cy="63" r="5" fill="#fff"/>
+      <circle cx="57" cy="63" r="5" fill="#fff"/>
+      <circle cx="44" cy="64" r="3" fill="#222"/>
+      <circle cx="58" cy="64" r="3" fill="#222"/>
+      <circle cx="43" cy="62" r="1.2" fill="#fff"/>
+      <circle cx="57" cy="62" r="1.2" fill="#fff"/>
+      <!-- blush -->
+      <ellipse cx="38" cy="69" rx="4" ry="2.5" fill="#ff66cc" opacity="0.5"/>
+      <ellipse cx="62" cy="69" rx="4" ry="2.5" fill="#ff66cc" opacity="0.5"/>
+      <!-- smile -->
+      <path d="M44 71 Q50 76 56 71" stroke="#994499" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- fire on top of head -->
+      <path d="M50 42 Q44 30 48 18 Q52 28 56 20 Q58 30 64 24 Q60 34 66 30 Q62 42 56 38 Q52 44 50 42Z" fill="#ff4400"/>
+      <path d="M50 42 Q45 33 48 22 Q51 30 54 24 Q56 32 60 28 Q57 38 54 36 Q51 43 50 42Z" fill="#ffcc00"/>
+      <!-- small wings -->
+      <path d="M22 62 Q10 50 16 40 Q24 50 26 62Z" fill="#bb33ff" opacity="0.7"/>
+      <path d="M78 62 Q90 50 84 40 Q76 50 74 62Z" fill="#bb33ff" opacity="0.7"/>
+      <!-- feet -->
+      <ellipse cx="40" cy="95" rx="8" ry="5" fill="#cc44ff"/>
+      <ellipse cx="60" cy="95" rx="8" ry="5" fill="#cc44ff"/>
+      <path d="M34 97 L32 103 M39 98 L38 104 M44 98 L43 104" stroke="#aa22dd" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M54 98 L53 104 M59 98 L60 104 M64 97 L66 103" stroke="#aa22dd" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
   </div>
+  <div class="name">PUFFBLAZE</div>
+  <div class="world" style="color:#bb33ff;">KIDFOREVER</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">95</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">70</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">85</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#ffcc0066;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- HYPERBOT — Epic -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0000,#330011);">
-    <div class="rarity" style="color:#bb33ff;">EPIC ✨</div>
-    <div class="art">🤖</div>
-    <div class="name">HYPERBOT</div>
-    <div class="world" style="color:#ff4444;">HYPERBLAST</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">85</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">60</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">75</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#bb33ff55;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- HYPERBOT — Epic -->
+<div class="card" style="background:linear-gradient(160deg,#000a1a,#001530,#00050a);">
+  <div class="rarity" style="color:#bb33ff;">EPIC ✦</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="104" rx="28" ry="4" fill="#00aaff" opacity="0.3"/>
+      <!-- legs -->
+      <rect x="36" y="84" width="10" height="20" rx="3" fill="#1155aa"/>
+      <rect x="54" y="84" width="10" height="20" rx="3" fill="#1155aa"/>
+      <rect x="33" y="100" width="16" height="6" rx="2" fill="#0077cc"/>
+      <rect x="51" y="100" width="16" height="6" rx="2" fill="#0077cc"/>
+      <!-- body -->
+      <rect x="26" y="52" width="48" height="36" rx="8" fill="#1155aa"/>
+      <!-- chest panel -->
+      <rect x="32" y="58" width="36" height="24" rx="4" fill="#0033aa"/>
+      <!-- chest light -->
+      <circle cx="50" cy="70" r="8" fill="#00ccff" opacity="0.9"/>
+      <circle cx="50" cy="70" r="5" fill="#fff"/>
+      <circle cx="50" cy="70" r="2" fill="#00aaff"/>
+      <!-- side vents -->
+      <rect x="28" y="60" width="4" height="3" rx="1" fill="#00aaff" opacity="0.6"/>
+      <rect x="28" y="65" width="4" height="3" rx="1" fill="#00aaff" opacity="0.6"/>
+      <rect x="28" y="70" width="4" height="3" rx="1" fill="#00aaff" opacity="0.6"/>
+      <rect x="68" y="60" width="4" height="3" rx="1" fill="#00aaff" opacity="0.6"/>
+      <rect x="68" y="65" width="4" height="3" rx="1" fill="#00aaff" opacity="0.6"/>
+      <rect x="68" y="70" width="4" height="3" rx="1" fill="#00aaff" opacity="0.6"/>
+      <!-- arms -->
+      <rect x="10" y="54" width="16" height="28" rx="6" fill="#1155aa"/>
+      <rect x="74" y="54" width="16" height="28" rx="6" fill="#1155aa"/>
+      <!-- gun arm left -->
+      <rect x="6" y="64" width="14" height="8" rx="3" fill="#0033aa"/>
+      <rect x="4" y="66" width="6" height="4" rx="1" fill="#00ccff"/>
+      <!-- gun arm right -->
+      <rect x="80" y="64" width="14" height="8" rx="3" fill="#0033aa"/>
+      <rect x="90" y="66" width="6" height="4" rx="1" fill="#00ccff"/>
+      <!-- neck -->
+      <rect x="42" y="44" width="16" height="10" rx="4" fill="#0d3d88"/>
+      <!-- head -->
+      <rect x="28" y="22" width="44" height="26" rx="8" fill="#1155aa"/>
+      <!-- visor -->
+      <rect x="32" y="28" width="36" height="12" rx="4" fill="#000a22"/>
+      <!-- visor glow -->
+      <rect x="33" y="29" width="34" height="10" rx="3" fill="#ff2244" opacity="0.8"/>
+      <rect x="35" y="30" width="30" height="8" rx="2" fill="#ff4466" opacity="0.5"/>
+      <!-- visor scanline -->
+      <line x1="33" y1="34" x2="67" y2="34" stroke="#fff" stroke-width="1" opacity="0.3"/>
+      <!-- antenna -->
+      <line x1="50" y1="22" x2="50" y2="12" stroke="#1155aa" stroke-width="3"/>
+      <circle cx="50" cy="10" r="4" fill="#00ccff"/>
+      <circle cx="50" cy="10" r="2" fill="#fff"/>
+      <!-- ear bolts -->
+      <circle cx="28" cy="35" r="3" fill="#0033aa"/>
+      <circle cx="72" cy="35" r="3" fill="#0033aa"/>
+    </svg>
   </div>
+  <div class="name">HYPERBOT</div>
+  <div class="world" style="color:#ff4444;">HYPERBLAST</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">85</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">60</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">75</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#bb33ff66;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- SHADOWKID — Epic -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0800,#0d0500);">
-    <div class="rarity" style="color:#bb33ff;">EPIC ✨</div>
-    <div class="art">👾</div>
-    <div class="name">SHADOWKID</div>
-    <div class="world" style="color:#ff8800;">EPICWORLD</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">78</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">55</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">88</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#bb33ff55;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- SHADOWKID — Epic -->
+<div class="card" style="background:linear-gradient(160deg,#080008,#120018,#04000a);">
+  <div class="rarity" style="color:#bb33ff;">EPIC ✦</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="104" rx="28" ry="4" fill="#8800ff" opacity="0.3"/>
+      <!-- shadow cloak -->
+      <path d="M20 50 Q14 80 12 108 Q50 98 88 108 Q86 80 80 50 Q65 70 50 68 Q35 70 20 50Z" fill="#1a0028" opacity="0.95"/>
+      <!-- cloak edge shimmer -->
+      <path d="M20 50 Q14 80 12 108" stroke="#6600cc" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <path d="M80 50 Q86 80 88 108" stroke="#6600cc" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <!-- body -->
+      <rect x="36" y="52" width="28" height="34" rx="6" fill="#2a004a"/>
+      <!-- hood -->
+      <path d="M26 46 Q28 22 50 20 Q72 22 74 46 Q65 38 50 40 Q35 38 26 46Z" fill="#1a0028"/>
+      <!-- face in shadow -->
+      <circle cx="50" cy="42" r="14" fill="#160022"/>
+      <!-- glowing eyes -->
+      <ellipse cx="44" cy="40" rx="4" ry="4" fill="#aa00ff"/>
+      <ellipse cx="56" cy="40" rx="4" ry="4" fill="#aa00ff"/>
+      <ellipse cx="44" cy="40" rx="2.5" ry="2.5" fill="#dd66ff"/>
+      <ellipse cx="56" cy="40" rx="2.5" ry="2.5" fill="#dd66ff"/>
+      <circle cx="44" cy="39" r="1" fill="#fff" opacity="0.8"/>
+      <circle cx="56" cy="39" r="1" fill="#fff" opacity="0.8"/>
+      <!-- shadow tendrils -->
+      <path d="M30 70 Q15 75 8 90 Q20 85 30 88" fill="#2a004a"/>
+      <path d="M70 70 Q85 75 92 90 Q80 85 70 88" fill="#2a004a"/>
+      <!-- throwing stars -->
+      <polygon points="18,55 20,50 22,55 27,53 23,57 25,62 20,59 15,62 17,57 13,53" fill="#aa00ff" opacity="0.8"/>
+      <polygon points="80,48 82,43 84,48 89,46 85,50 87,55 82,52 77,55 79,50 75,46" fill="#aa00ff" opacity="0.8"/>
+      <!-- belt -->
+      <rect x="36" y="68" width="28" height="4" rx="2" fill="#6600cc"/>
+      <rect x="47" y="67" width="6" height="6" rx="1" fill="#aa00ff"/>
+    </svg>
   </div>
+  <div class="name">SHADOWKID</div>
+  <div class="world" style="color:#bb33ff;">EPICWORLD</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">78</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">55</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">88</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#bb33ff66;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- LUNA — Rare -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0011,#0a001a);">
-    <div class="rarity" style="color:#2255ff;">RARE</div>
-    <div class="art">🦋</div>
-    <div class="name">LUNA</div>
-    <div class="world" style="color:#ff96c8;">FLUFFLAND</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">40</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">70</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">90</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#2255ff55;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- LUNA — Rare -->
+<div class="card" style="background:linear-gradient(160deg,#000818,#001028,#000510);">
+  <div class="rarity" style="color:#4488ff;">RARE</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="105" rx="25" ry="4" fill="#66aaff" opacity="0.3"/>
+      <!-- big butterfly wings -->
+      <!-- upper wings -->
+      <ellipse cx="22" cy="50" rx="20" ry="28" fill="#0044cc" opacity="0.85" transform="rotate(-20,22,50)"/>
+      <ellipse cx="78" cy="50" rx="20" ry="28" fill="#0044cc" opacity="0.85" transform="rotate(20,78,50)"/>
+      <!-- upper wing patterns -->
+      <circle cx="18" cy="42" r="6" fill="#66aaff" opacity="0.6"/>
+      <circle cx="25" cy="55" r="4" fill="#aaddff" opacity="0.5"/>
+      <circle cx="82" cy="42" r="6" fill="#66aaff" opacity="0.6"/>
+      <circle cx="75" cy="55" r="4" fill="#aaddff" opacity="0.5"/>
+      <!-- upper wing edge dots -->
+      <circle cx="10" cy="38" r="2.5" fill="#00ccff" opacity="0.8"/>
+      <circle cx="14" cy="28" r="2" fill="#00ccff" opacity="0.8"/>
+      <circle cx="90" cy="38" r="2.5" fill="#00ccff" opacity="0.8"/>
+      <circle cx="86" cy="28" r="2" fill="#00ccff" opacity="0.8"/>
+      <!-- lower wings -->
+      <ellipse cx="26" cy="76" rx="16" ry="18" fill="#0033aa" opacity="0.8" transform="rotate(15,26,76)"/>
+      <ellipse cx="74" cy="76" rx="16" ry="18" fill="#0033aa" opacity="0.8" transform="rotate(-15,74,76)"/>
+      <circle cx="22" cy="80" r="5" fill="#66aaff" opacity="0.5"/>
+      <circle cx="78" cy="80" r="5" fill="#66aaff" opacity="0.5"/>
+      <!-- body -->
+      <ellipse cx="50" cy="65" rx="7" ry="24" fill="#224488"/>
+      <!-- body shine -->
+      <ellipse cx="48" cy="55" rx="2" ry="12" fill="#4477cc" opacity="0.5"/>
+      <!-- head -->
+      <circle cx="50" cy="38" r="12" fill="#ffe0b2"/>
+      <!-- hair -->
+      <path d="M38 34 Q40 22 50 24 Q60 22 62 34 Q56 26 50 28 Q44 26 38 34Z" fill="#1133aa"/>
+      <!-- hair streaks -->
+      <path d="M46 24 Q48 18 50 24" stroke="#4488ff" stroke-width="1.5" fill="none"/>
+      <path d="M52 24 Q54 18 54 24" stroke="#4488ff" stroke-width="1" fill="none"/>
+      <!-- eyes - big and sparkly -->
+      <circle cx="45" cy="38" r="5" fill="#fff"/>
+      <circle cx="55" cy="38" r="5" fill="#fff"/>
+      <circle cx="45" cy="38" r="3.5" fill="#0044cc"/>
+      <circle cx="55" cy="38" r="3.5" fill="#0044cc"/>
+      <circle cx="45" cy="38" r="2" fill="#000022"/>
+      <circle cx="55" cy="38" r="2" fill="#000022"/>
+      <circle cx="44" cy="36" r="1.2" fill="#fff"/>
+      <circle cx="54" cy="36" r="1.2" fill="#fff"/>
+      <!-- smile -->
+      <path d="M46 43 Q50 47 54 43" stroke="#c8703a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- antennae -->
+      <line x1="46" y1="26" x2="40" y2="16" stroke="#224488" stroke-width="1.5"/>
+      <line x1="54" y1="26" x2="60" y2="16" stroke="#224488" stroke-width="1.5"/>
+      <circle cx="40" cy="15" r="2.5" fill="#66aaff"/>
+      <circle cx="60" cy="15" r="2.5" fill="#66aaff"/>
+      <!-- sparkles -->
+      <path d="M12 55 L14 50 L16 55 L14 60Z" fill="#aaddff" opacity="0.8"/>
+      <path d="M84 55 L86 50 L88 55 L86 60Z" fill="#aaddff" opacity="0.8"/>
+    </svg>
   </div>
+  <div class="name">LUNA</div>
+  <div class="world" style="color:#88ccff;">FLUFFLAND</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">40</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">70</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">90</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#4488ff66;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- TANK BOT — Rare -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0000,#330011);">
-    <div class="rarity" style="color:#2255ff;">RARE</div>
-    <div class="art">🛡️</div>
-    <div class="name">TANK BOT</div>
-    <div class="world" style="color:#ff4444;">HYPERBLAST</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">60</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">95</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">25</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#2255ff55;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- TANK BOT — Rare -->
+<div class="card" style="background:linear-gradient(160deg,#0a0a0a,#181818,#050505);">
+  <div class="rarity" style="color:#4488ff;">RARE</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="106" rx="36" ry="4" fill="#888" opacity="0.3"/>
+      <!-- tank treads -->
+      <rect x="8" y="82" width="84" height="20" rx="10" fill="#333"/>
+      <rect x="10" y="84" width="80" height="16" rx="8" fill="#444"/>
+      <!-- tread marks -->
+      <rect x="14" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <rect x="24" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <rect x="34" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <rect x="44" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <rect x="54" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <rect x="64" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <rect x="74" y="86" width="6" height="12" rx="2" fill="#555"/>
+      <!-- tread wheels -->
+      <circle cx="18" cy="92" r="7" fill="#222"/>
+      <circle cx="50" cy="92" r="7" fill="#222"/>
+      <circle cx="82" cy="92" r="7" fill="#222"/>
+      <!-- body -->
+      <rect x="18" y="55" width="64" height="30" rx="6" fill="#555"/>
+      <!-- armor plates -->
+      <rect x="22" y="59" width="56" height="22" rx="4" fill="#444"/>
+      <!-- rivets -->
+      <circle cx="26" cy="63" r="2" fill="#666"/>
+      <circle cx="74" cy="63" r="2" fill="#666"/>
+      <circle cx="26" cy="75" r="2" fill="#666"/>
+      <circle cx="74" cy="75" r="2" fill="#666"/>
+      <!-- health bar on body -->
+      <rect x="30" y="68" width="40" height="6" rx="3" fill="#222"/>
+      <rect x="31" y="69" width="38" height="4" rx="2" fill="#00ff44"/>
+      <!-- turret base -->
+      <rect x="30" y="40" width="40" height="20" rx="6" fill="#666"/>
+      <!-- turret -->
+      <rect x="34" y="30" width="32" height="18" rx="6" fill="#777"/>
+      <!-- turret eye/sensor -->
+      <circle cx="50" cy="39" r="7" fill="#000"/>
+      <circle cx="50" cy="39" r="5" fill="#ff4400"/>
+      <circle cx="50" cy="39" r="3" fill="#ff8800"/>
+      <circle cx="50" cy="39" r="1.5" fill="#ffcc00"/>
+      <!-- gun barrel -->
+      <rect x="74" y="36" width="22" height="8" rx="3" fill="#555"/>
+      <rect x="92" y="35" width="5" height="10" rx="2" fill="#444"/>
+      <!-- shield bumpers -->
+      <rect x="14" y="60" width="6" height="20" rx="3" fill="#666"/>
+      <rect x="80" y="60" width="6" height="20" rx="3" fill="#666"/>
+      <!-- antenna -->
+      <line x1="42" y1="30" x2="40" y2="18" stroke="#555" stroke-width="2"/>
+      <line x1="58" y1="30" x2="60" y2="18" stroke="#555" stroke-width="2"/>
+      <circle cx="40" cy="17" r="3" fill="#ff4400"/>
+      <circle cx="60" cy="17" r="3" fill="#00ff44"/>
+    </svg>
   </div>
+  <div class="name">TANK BOT</div>
+  <div class="world" style="color:#ff4444;">HYPERBLAST</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">60</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">95</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">25</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#4488ff66;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- ZAPPER — Common -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0000,#330011);">
-    <div class="rarity" style="color:#888899;">COMMON</div>
-    <div class="art">💥</div>
-    <div class="name">ZAPPER</div>
-    <div class="world" style="color:#ff4444;">HYPERBLAST</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">45</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">30</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">70</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#88889955;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- ZAPPER — Common -->
+<div class="card" style="background:linear-gradient(160deg,#0a0800,#181200,#050400);">
+  <div class="rarity" style="color:#aaaacc;">COMMON</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="105" rx="22" ry="4" fill="#ffcc00" opacity="0.25"/>
+      <!-- energy core -->
+      <circle cx="50" cy="58" r="22" fill="#ffaa00" opacity="0.15"/>
+      <circle cx="50" cy="58" r="16" fill="#ffaa00" opacity="0.2"/>
+      <!-- body - electric eel-like creature -->
+      <path d="M30 30 Q20 50 22 70 Q28 90 50 95 Q72 90 78 70 Q80 50 70 30 Q60 20 50 22 Q40 20 30 30Z" fill="#cc8800"/>
+      <!-- scales pattern -->
+      <path d="M35 40 Q40 35 45 40 Q40 45 35 40Z" fill="#ffaa00" opacity="0.5"/>
+      <path d="M50 35 Q55 30 60 35 Q55 40 50 35Z" fill="#ffaa00" opacity="0.5"/>
+      <path d="M62 42 Q67 37 72 42 Q67 47 62 42Z" fill="#ffaa00" opacity="0.5"/>
+      <path d="M30 55 Q35 50 40 55 Q35 60 30 55Z" fill="#ffaa00" opacity="0.5"/>
+      <path d="M58 52 Q63 47 68 52 Q63 57 58 52Z" fill="#ffaa00" opacity="0.5"/>
+      <path d="M35 68 Q40 63 45 68 Q40 73 35 68Z" fill="#ffaa00" opacity="0.5"/>
+      <path d="M55 65 Q60 60 65 65 Q60 70 55 65Z" fill="#ffaa00" opacity="0.5"/>
+      <!-- belly -->
+      <ellipse cx="50" cy="62" rx="14" ry="22" fill="#ffdd44" opacity="0.6"/>
+      <!-- eyes -->
+      <circle cx="42" cy="38" r="6" fill="#fff"/>
+      <circle cx="58" cy="38" r="6" fill="#fff"/>
+      <circle cx="42" cy="38" r="4" fill="#ffcc00"/>
+      <circle cx="58" cy="38" r="4" fill="#ffcc00"/>
+      <circle cx="42" cy="38" r="2" fill="#222"/>
+      <circle cx="58" cy="38" r="2" fill="#222"/>
+      <circle cx="41" cy="37" r="1" fill="#fff"/>
+      <circle cx="57" cy="37" r="1" fill="#fff"/>
+      <!-- mouth with sparks -->
+      <path d="M44 46 Q50 50 56 46" stroke="#996600" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- lightning bolts around body -->
+      <path d="M18 45 L24 40 L20 50 L26 45" stroke="#ffcc00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M82 45 L76 40 L80 50 L74 45" stroke="#ffcc00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M25 72 L30 66 L27 76 L33 70" stroke="#ffcc00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M75 72 L70 66 L73 76 L67 70" stroke="#ffcc00" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- tail with electric tip -->
+      <path d="M50 93 Q44 100 40 106 Q50 103 60 106 Q56 100 50 93Z" fill="#cc8800"/>
+      <path d="M46 100 L44 106 L50 103 L56 106 L54 100" stroke="#ffcc00" stroke-width="2" fill="none"/>
+    </svg>
   </div>
+  <div class="name">ZAPPER</div>
+  <div class="world" style="color:#ffcc44;">HYPERBLAST</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">45</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">30</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">70</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#88889966;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
-  <!-- SHELLY — Common -->
-  <div class="card" style="background:linear-gradient(135deg,#1a0011,#0a001a);">
-    <div class="rarity" style="color:#888899;">COMMON</div>
-    <div class="art">🐢</div>
-    <div class="name">SHELLY</div>
-    <div class="world" style="color:#ff96c8;">FLUFFLAND</div>
-    <div class="stats">
-      <div class="st"><div class="st-n" style="color:#ff4444;">30</div><div class="st-l">ATK</div></div>
-      <div class="st"><div class="st-n" style="color:#4488ff;">99</div><div class="st-l">DEF</div></div>
-      <div class="st"><div class="st-n" style="color:#00ffaa;">20</div><div class="st-l">SPD</div></div>
-    </div>
-    <div class="card-border" style="border-color:#88889955;"></div>
-    <div class="logo">KIDFOREVER</div>
+<!-- SHELLY — Common -->
+<div class="card" style="background:linear-gradient(160deg,#001a08,#002a10,#000a04);">
+  <div class="rarity" style="color:#aaaacc;">COMMON</div>
+  <div class="art">
+    <svg viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="50" cy="106" rx="30" ry="4" fill="#00aa44" opacity="0.3"/>
+      <!-- shell -->
+      <ellipse cx="50" cy="60" rx="32" ry="26" fill="#116622"/>
+      <!-- shell pattern hexagons -->
+      <polygon points="50,38 58,43 58,53 50,58 42,53 42,43" fill="#228833"/>
+      <polygon points="50,38 58,43 58,53 50,58 42,53 42,43" fill="none" stroke="#33aa44" stroke-width="1"/>
+      <polygon points="68,43 76,48 76,58 68,63 60,58 60,48" fill="#228833"/>
+      <polygon points="68,43 76,48 76,58 68,63 60,58 60,48" fill="none" stroke="#33aa44" stroke-width="1"/>
+      <polygon points="32,43 40,48 40,58 32,63 24,58 24,48" fill="#228833"/>
+      <polygon points="32,43 40,48 40,58 32,63 24,58 24,48" fill="none" stroke="#33aa44" stroke-width="1"/>
+      <polygon points="50,58 58,63 58,73 50,78 42,73 42,63" fill="#228833"/>
+      <polygon points="50,58 58,63 58,73 50,78 42,73 42,63" fill="none" stroke="#33aa44" stroke-width="1"/>
+      <!-- shell ridge -->
+      <ellipse cx="50" cy="60" rx="32" ry="26" fill="none" stroke="#33aa44" stroke-width="2"/>
+      <!-- shell dome highlight -->
+      <ellipse cx="44" cy="50" rx="10" ry="8" fill="#33aa44" opacity="0.3"/>
+      <!-- head -->
+      <circle cx="50" cy="30" r="14" fill="#44aa22"/>
+      <!-- head stripe -->
+      <path d="M38 26 Q50 22 62 26" stroke="#66cc44" stroke-width="2" fill="none" opacity="0.6"/>
+      <!-- face -->
+      <circle cx="44" cy="28" r="5" fill="#fff"/>
+      <circle cx="56" cy="28" r="5" fill="#fff"/>
+      <circle cx="44" cy="29" r="3.5" fill="#003300"/>
+      <circle cx="56" cy="29" r="3.5" fill="#003300"/>
+      <circle cx="43" cy="27" r="1.2" fill="#fff"/>
+      <circle cx="55" cy="27" r="1.2" fill="#fff"/>
+      <!-- smile -->
+      <path d="M44 35 Q50 40 56 35" stroke="#226611" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- neck -->
+      <path d="M42 40 Q46 44 50 44 Q54 44 58 40 Q54 48 50 48 Q46 48 42 40Z" fill="#44aa22"/>
+      <!-- legs -->
+      <ellipse cx="24" cy="78" rx="10" ry="7" fill="#44aa22" transform="rotate(-15,24,78)"/>
+      <ellipse cx="76" cy="78" rx="10" ry="7" fill="#44aa22" transform="rotate(15,76,78)"/>
+      <ellipse cx="30" cy="92" rx="10" ry="6" fill="#44aa22" transform="rotate(5,30,92)"/>
+      <ellipse cx="70" cy="92" rx="10" ry="6" fill="#44aa22" transform="rotate(-5,70,92)"/>
+      <!-- claws -->
+      <path d="M16 80 L12 86 M20 82 L17 88 M24 82 L22 88" stroke="#226611" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M84 80 L88 86 M80 82 L83 88 M76 82 L78 88" stroke="#226611" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M23 96 L20 102 M28 97 L26 103 M33 97 L32 103" stroke="#226611" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M77 96 L80 102 M72 97 L74 103 M67 97 L68 103" stroke="#226611" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- tail -->
+      <path d="M50 82 Q56 90 52 96 Q50 92 48 96 Q44 90 50 82Z" fill="#44aa22"/>
+    </svg>
   </div>
+  <div class="name">SHELLY</div>
+  <div class="world" style="color:#44ee88;">FLUFFLAND</div>
+  <div class="stats">
+    <div class="st"><div class="st-n" style="color:#ff4444;">30</div><div class="st-l">ATK</div></div>
+    <div class="st"><div class="st-n" style="color:#4488ff;">99</div><div class="st-l">DEF</div></div>
+    <div class="st"><div class="st-n" style="color:#00ffaa;">20</div><div class="st-l">SPD</div></div>
+  </div>
+  <div class="card-border" style="border-color:#88889966;"></div>
+  <div class="logo">KIDFOREVER</div>
+</div>
 
 </div>
 
 <div class="cut-line"></div>
 
-<!-- BACK SHEET -->
-<div class="instructions">✂️ CARD BACKS — Print on the other side</div>
+<div class="instructions">✂️ CARD BACKS — Print on the other side of the same sheet</div>
 <div class="sheet">
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
-  <div class="card back"><div class="back-border"></div><div class="back-logo">⚡</div><div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
+  <div class="card back"><div class="back-border"></div>
+    <svg viewBox="0 0 60 60" width="60" height="60"><circle cx="30" cy="30" r="28" fill="none" stroke="#ffcc00" stroke-width="1" opacity="0.3"/><polygon points="30,8 34,24 50,24 37,34 42,50 30,40 18,50 23,34 10,24 26,24" fill="#ffcc00" opacity="0.9"/></svg>
+    <div class="back-name">KIDFOREVER</div><div class="back-sub">CARDS</div></div>
 </div>
 
 </body>
