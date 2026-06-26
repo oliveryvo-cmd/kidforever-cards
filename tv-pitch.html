@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KidForever — TV Series Pitch</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#03020a;color:#fff;font-family:'Georgia',serif;padding:0;}
+
+/* COVER PAGE */
+.cover{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 40px;background:linear-gradient(160deg,#03020a,#0d0020,#1a0005);position:relative;overflow:hidden;}
+.cover-stars{position:absolute;inset:0;pointer-events:none;}
+.cover-eyebrow{font-family:'Arial',sans-serif;font-size:0.45rem;letter-spacing:8px;color:#ffcc00;margin-bottom:24px;opacity:0.8;}
+.cover-title{font-size:clamp(4rem,15vw,10rem);font-weight:900;font-family:'Arial Black',sans-serif;line-height:0.9;margin-bottom:16px;background:linear-gradient(135deg,#fff 0%,#ffcc00 40%,#ff2244 70%,#bb33ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.cover-sub{font-size:clamp(0.6rem,2vw,0.9rem);letter-spacing:6px;color:#555577;font-family:'Arial',sans-serif;margin-bottom:40px;}
+.cover-logline{font-size:clamp(0.8rem,2.5vw,1.2rem);color:#aaaabb;line-height:1.9;max-width:600px;font-style:italic;margin-bottom:48px;}
+.cover-meta{font-family:'Arial',sans-serif;font-size:0.5rem;letter-spacing:4px;color:#333355;}
+.cover-divider{width:60px;height:2px;background:linear-gradient(90deg,#ffcc00,#ff2244);margin:32px auto;}
+
+/* PAGES */
+.page{max-width:800px;margin:0 auto;padding:80px 48px;border-bottom:1px solid #111133;}
+.page-num{font-family:'Arial',sans-serif;font-size:0.4rem;letter-spacing:5px;color:#222244;margin-bottom:40px;}
+.section-label{font-family:'Arial',sans-serif;font-size:0.4rem;letter-spacing:8px;color:#ffcc00;margin-bottom:16px;display:block;}
+h2{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;font-family:'Arial Black',sans-serif;line-height:1.1;margin-bottom:24px;color:#fff;}
+h3{font-size:1.1rem;font-weight:700;font-family:'Arial',sans-serif;color:#ffcc00;margin-bottom:12px;letter-spacing:2px;}
+p{font-size:0.9rem;line-height:2;color:#aaaabb;margin-bottom:20px;}
+p strong{color:#fff;}
+.pull-quote{font-size:clamp(1rem,3vw,1.5rem);font-style:italic;color:#fff;line-height:1.7;padding:32px 0;border-top:1px solid #222244;border-bottom:1px solid #222244;margin:32px 0;}
+.pull-quote span{color:#ffcc00;}
+
+/* CHARACTERS */
+.char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:32px 0;}
+.char-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;}
+.char-name{font-family:'Arial Black',sans-serif;font-size:0.8rem;font-weight:900;letter-spacing:3px;margin-bottom:4px;}
+.char-role{font-family:'Arial',sans-serif;font-size:0.45rem;letter-spacing:3px;color:#555577;margin-bottom:12px;}
+.char-desc{font-size:0.7rem;color:#888899;line-height:1.8;}
+.char-art{font-size:2.5rem;margin-bottom:12px;}
+
+/* WORLDS */
+.world-list{margin:24px 0;}
+.world-item{padding:20px 0;border-bottom:1px solid #111133;display:flex;gap:20px;align-items:flex-start;}
+.world-icon{font-size:2rem;flex-shrink:0;width:48px;text-align:center;}
+.world-name{font-family:'Arial Black',sans-serif;font-size:0.7rem;font-weight:900;letter-spacing:3px;color:#ffcc00;margin-bottom:4px;}
+.world-desc{font-size:0.7rem;color:#888899;line-height:1.8;}
+
+/* EPISODE */
+.ep-card{background:rgba(255,255,255,0.02);border-left:3px solid #ffcc00;padding:20px 24px;margin-bottom:16px;border-radius:0 12px 12px 0;}
+.ep-num{font-family:'Arial',sans-serif;font-size:0.4rem;letter-spacing:4px;color:#ffcc00;margin-bottom:4px;}
+.ep-title{font-family:'Arial Black',sans-serif;font-size:0.85rem;font-weight:900;color:#fff;margin-bottom:8px;}
+.ep-desc{font-size:0.7rem;color:#888899;line-height:1.8;}
+
+/* COMPS */
+.comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+.comp-item{background:rgba(255,255,255,0.03);border-radius:12px;padding:20px;text-align:center;}
+.comp-name{font-family:'Arial Black',sans-serif;font-size:0.65rem;font-weight:900;color:#fff;margin-bottom:6px;}
+.comp-note{font-size:0.55rem;color:#555577;line-height:1.6;}
+
+/* NUMBERS */
+.number-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0;}
+.number-item{background:rgba(255,204,0,0.04);border:1px solid rgba(255,204,0,0.1);border-radius:12px;padding:24px;}
+.number-n{font-family:'Arial Black',sans-serif;font-size:2rem;font-weight:900;color:#ffcc00;margin-bottom:4px;}
+.number-l{font-family:'Arial',sans-serif;font-size:0.45rem;letter-spacing:3px;color:#555577;}
+
+/* CREATOR */
+.creator-box{background:linear-gradient(135deg,rgba(255,204,0,0.05),rgba(187,51,255,0.05));border:1px solid rgba(255,204,0,0.15);border-radius:20px;padding:40px;text-align:center;margin:32px 0;}
+.creator-name{font-family:'Arial Black',sans-serif;font-size:3rem;font-weight:900;background:linear-gradient(135deg,#ffcc00,#ff2244);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.creator-title{font-family:'Arial',sans-serif;font-size:0.45rem;letter-spacing:5px;color:#555577;margin-bottom:24px;}
+.creator-bio{font-size:0.8rem;color:#aaaabb;line-height:2.2;max-width:500px;margin:0 auto;}
+
+/* CONTACT */
+.contact-box{background:linear-gradient(160deg,#03020a,#0d0020);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:48px;text-align:center;}
+.contact-cta{font-family:'Arial Black',sans-serif;font-size:clamp(1.5rem,5vw,3rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px;}
+.contact-cta span{background:linear-gradient(135deg,#ffcc00,#ff2244);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.contact-detail{font-family:'Arial',sans-serif;font-size:0.6rem;letter-spacing:3px;color:#555577;margin:8px 0;}
+.contact-detail a{color:#ffcc00;text-decoration:none;}
+
+/* PRINT */
+@media print{
+  body{background:#fff;color:#000;}
+  .cover{background:#fff;color:#000;min-height:auto;padding:60px 40px;}
+  .cover-title{background:none;-webkit-text-fill-color:#000;}
+  p,h2,h3{color:#000;}
+  .pull-quote{color:#000;}
+  .page{border-color:#ddd;}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <canvas class="cover-stars" id="stars"></canvas>
+  <div class="cover-eyebrow">ANIMATED SERIES PITCH · CONFIDENTIAL</div>
+  <div class="cover-title">KID<br>FOREVER</div>
+  <div class="cover-sub">AN ORIGINAL ANIMATED SERIES</div>
+  <div class="cover-divider"></div>
+  <div class="cover-logline">"A 10-year-old with Tourette syndrome discovers he is the chosen leader of a secret universe — and must unite eight warring worlds before The Boss destroys them all."</div>
+  <div class="cover-meta">CREATED BY OLIVER · AGE 10 · PUFFBLAZE WORLD STUDIOS · 2026</div>
+</div>
+
+<!-- THE CONCEPT -->
+<div class="page">
+  <div class="page-num">01 — THE CONCEPT</div>
+  <span class="section-label">SERIES OVERVIEW</span>
+  <h2>What Is KidForever?</h2>
+  <p>KidForever is a <strong>26-episode animated adventure series</strong> for kids ages 6–14. Equal parts action, heart, and humor — think Avatar: The Last Airbender meets Pokémon, with a hero who has a real disability and wins anyway.</p>
+  <p>The show follows <strong>OLIVER</strong> — a 10-year-old with Tourette syndrome who discovers that the characters he invented in his bedroom are real. They live in a secret multiverse called the <strong>KidForever Universe</strong>, made up of eight distinct worlds — and they've been waiting for him to lead them.</p>
+  <p>But The Boss — an ancient dragon warlord — is tearing the worlds apart. Oliver must travel between worlds, collect allies, and use the one power nobody expected: <strong>the ability to believe in things nobody else will.</strong></p>
+  <div class="pull-quote">"The greatest animated series aren't about superpowers. They're about <span>a kid who refuses to give up.</span> KidForever is that story — and it happens to be true."</div>
+</div>
+
+<!-- THE CREATOR -->
+<div class="page">
+  <div class="page-num">02 — THE CREATOR</div>
+  <span class="section-label">WHO MADE THIS</span>
+  <h2>Built by a Kid.<br>For Every Kid.</h2>
+  <div class="creator-box">
+    <div class="creator-name">OLIVER</div>
+    <div class="creator-title">CREATOR · SHOWRUNNER · AGE 10</div>
+    <div class="creator-bio">
+      Oliver is a 10-year-old from California with Tourette syndrome. Before age 11 he built KidRising — a social network for kids — a parliament where kids vote on real laws, a country called KidRising Nation with real passports and a constitution, an arcade shooter, a trading card game with 20 original characters, and released his debut single "I Feel You."<br><br>
+      KidForever is not a pitch from a Hollywood writer. It is a universe one kid built alone, from his bedroom, because he needed a world where kids like him were the heroes.
+    </div>
+  </div>
+  <p>Oliver's story is the show's greatest asset. <strong>No animated series in history has been created by a 10-year-old with a disability.</strong> The press writes itself. The mission is real. The audience already exists — every kid who has ever been told they can't.</p>
+</div>
+
+<!-- CHARACTERS -->
+<div class="page">
+  <div class="page-num">03 — CHARACTERS</div>
+  <span class="section-label">THE CAST</span>
+  <h2>Eight Heroes.<br>One Universe.</h2>
+  <div class="char-grid">
+    <div class="char-card">
+      <div class="char-art">⚡</div>
+      <div class="char-name" style="color:#ffcc00;">OLIVER</div>
+      <div class="char-role">THE CHOSEN ONE · PROTAGONIST</div>
+      <div class="char-desc">10 years old. Tourette syndrome. Doesn't think he's special. Is actually the most powerful being in the KidForever universe. Stats: 99/99/99.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-art">🔥</div>
+      <div class="char-name" style="color:#bb33ff;">PUFFBLAZE</div>
+      <div class="char-role">COMPANION · COMIC RELIEF</div>
+      <div class="char-desc">Round, fluffy, purple. Looks harmless. Stores an entire volcano in its cheeks. Oliver's first and most loyal friend.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-art">🐉</div>
+      <div class="char-name" style="color:#ff2244;">THE BOSS</div>
+      <div class="char-role">PRIMARY VILLAIN</div>
+      <div class="char-desc">Ancient dragon warlord who ruled the universe before the KidForever age. Believes only the strong deserve to lead. Has a secret.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-art">🤖</div>
+      <div class="char-name" style="color:#0088ff;">HYPERBOT</div>
+      <div class="char-role">MUSCLE · SEASON 1 RECRUIT</div>
+      <div class="char-desc">Military-grade battle robot. Follows orders perfectly — until Oliver teaches him to think for himself.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-art">👾</div>
+      <div class="char-name" style="color:#9900cc;">SHADOWKID</div>
+      <div class="char-role">ROGUE · ANTI-HERO</div>
+      <div class="char-desc">Moves unseen. Works alone. Doesn't trust anyone — especially Oliver. Until he does.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-art">🦋</div>
+      <div class="char-name" style="color:#4488ff;">LUNA</div>
+      <div class="char-role">HEART · FASTEST ALIVE</div>
+      <div class="char-desc">Can't be caught. Won't be stopped. The fastest being in FluffLand and possibly the universe. Believes in Oliver before anyone else.</div>
+    </div>
+  </div>
+</div>
+
+<!-- THE WORLDS -->
+<div class="page">
+  <div class="page-num">04 — THE WORLDS</div>
+  <span class="section-label">THE UNIVERSE</span>
+  <h2>Eight Worlds.<br>Infinite Stories.</h2>
+  <p>Each world in the KidForever Universe has its own visual identity, rules, and culture — giving every season fresh settings, new characters, and new conflicts to resolve.</p>
+  <div class="world-list">
+    <div class="world-item">
+      <div class="world-icon">⚡</div>
+      <div><div class="world-name">KIDRISING</div><div class="world-desc">Oliver's home world. A world where kids built their own civilization — their own government, their own laws, their own culture. The most advanced world in the universe. Also the most at risk.</div></div>
+    </div>
+    <div class="world-item">
+      <div class="world-icon">🔥</div>
+      <div><div class="world-name">HYPERBLAST</div><div class="world-desc">A war world. Everything is battle, explosion, and speed. Home of The Boss, Hyperbot, Tank Bot, and Zapper. Neon red skies and burning cities. Pure adrenaline, every episode.</div></div>
+    </div>
+    <div class="world-item">
+      <div class="world-icon">🌸</div>
+      <div><div class="world-name">FLUFFLAND</div><div class="world-desc">Deceptively cute. Soft colors, round creatures — and incredibly dangerous. Luna and Shelly live here. The battles look adorable. The stakes are real.</div></div>
+    </div>
+    <div class="world-item">
+      <div class="world-icon">👾</div>
+      <div><div class="world-name">EPICWORLD</div><div class="world-desc">A world of shadows and mystery. No one knows its true size. ShadowKid rules it alone. Ancient secrets buried here could change everything.</div></div>
+    </div>
+    <div class="world-item">
+      <div class="world-icon">🌍</div>
+      <div><div class="world-name">KIDFOREVER</div><div class="world-desc">The central world. The bridge between all others. Where Oliver must build his base, form his council, and hold the universe together.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EPISODES -->
+<div class="page">
+  <div class="page-num">05 — EPISODES</div>
+  <span class="section-label">SEASON ONE · 13 EPISODES</span>
+  <h2>Season One:<br>"The Chosen Kid"</h2>
+  <p>Season One follows Oliver discovering the KidForever universe exists, recruiting his first five allies, and facing The Boss for the first time — ending on a cliffhanger that sets up a 3-season arc.</p>
+
+  <div class="ep-card">
+    <div class="ep-num">EPISODE 01</div>
+    <div class="ep-title">"The Kid Who Built a Universe"</div>
+    <div class="ep-desc">Oliver is just a regular kid with Tourette syndrome who draws characters in his notebook. One night, a lightning bolt hits his desk — and Puffblaze crawls out of the page. The KidForever universe is real. And it needs him.</div>
+  </div>
+  <div class="ep-card">
+    <div class="ep-num">EPISODE 02</div>
+    <div class="ep-title">"Welcome to HYPERBLAST"</div>
+    <div class="ep-desc">Oliver and Puffblaze arrive in HYPERBLAST — a world at war. They must survive long enough to find Hyperbot, who holds the key to reaching the other worlds.</div>
+  </div>
+  <div class="ep-card">
+    <div class="ep-num">EPISODE 03</div>
+    <div class="ep-title">"I Feel You"</div>
+    <div class="ep-desc">Oliver meets Luna in FluffLand. She's the fastest being alive — and she's been running from something her whole life. Oliver tells her: "I understand what it feels like. Because I have one too." She joins the team.</div>
+  </div>
+  <div class="ep-card">
+    <div class="ep-num">EPISODE 07</div>
+    <div class="ep-title">"The Boss Was a Kid Once"</div>
+    <div class="ep-desc">A flashback episode reveals The Boss's origin. He was a kid who wanted to build something great — and nobody believed in him. This is the episode that makes the villain human.</div>
+  </div>
+  <div class="ep-card">
+    <div class="ep-num">EPISODE 13</div>
+    <div class="ep-title">"KidForever" (Season Finale)</div>
+    <div class="ep-desc">The five heroes face The Boss for the first time. They don't win. But Oliver does something nobody expected — he offers The Boss a seat at the table. End of Season One. The universe holds. For now.</div>
+  </div>
+</div>
+
+<!-- COMPS -->
+<div class="page">
+  <div class="page-num">06 — MARKET</div>
+  <span class="section-label">COMPARABLE TITLES</span>
+  <h2>Where KidForever<br>Sits in the Market</h2>
+  <p>KidForever occupies the premium kids' animation space — high adventure, real emotion, long-form storytelling — that consistently produces the genre's biggest hits and franchises.</p>
+  <div class="comp-grid">
+    <div class="comp-item">
+      <div class="comp-name">AVATAR:<br>THE LAST AIRBENDER</div>
+      <div class="comp-note">Multi-world adventure. Reluctant hero. Deep lore. $300M+ franchise.</div>
+    </div>
+    <div class="comp-item">
+      <div class="comp-name">POKÉMON</div>
+      <div class="comp-note">Started as a game. Became $150B franchise. Trading cards drove it all.</div>
+    </div>
+    <div class="comp-item">
+      <div class="comp-name">STEVEN UNIVERSE</div>
+      <div class="comp-note">Hero with real emotions and real differences. Broke records for kids' animation.</div>
+    </div>
+  </div>
+  <div class="number-grid">
+    <div class="number-item">
+      <div class="number-n">$30B</div>
+      <div class="number-l">KIDS' ANIMATION MARKET SIZE · 2026</div>
+    </div>
+    <div class="number-item">
+      <div class="number-n">1B+</div>
+      <div class="number-l">KIDS WITH DISABILITIES WORLDWIDE — UNDERSERVED</div>
+    </div>
+    <div class="number-item">
+      <div class="number-n">$150B</div>
+      <div class="number-l">POKÉMON TOTAL FRANCHISE VALUE</div>
+    </div>
+    <div class="number-item">
+      <div class="number-n">0</div>
+      <div class="number-l">ANIMATED SHOWS CREATED BY A KID WITH TOURETTE SYNDROME</div>
+    </div>
+  </div>
+</div>
+
+<!-- THE ASK -->
+<div class="page">
+  <div class="page-num">07 — THE ASK</div>
+  <span class="section-label">WHAT WE'RE LOOKING FOR</span>
+  <h2>What We Need<br>From You</h2>
+  <p>We are seeking a <strong>development partnership</strong> with a major animation studio or streaming platform to produce a pilot episode of KidForever.</p>
+  <p>The KidForever universe is complete: <strong>20 original characters, 8 fully designed worlds, a season arc, episode outlines, a live trading card game, a live digital platform, a musical artist who wrote the theme song, and a creator with a story the world needs to hear.</strong></p>
+  <p>We are not asking you to build the universe. We are asking you to bring it to life.</p>
+
+  <div class="pull-quote">
+    "The most powerful animated shows aren't invented in a boardroom. They come from a <span>real kid with a real story</span> who needed to see themselves on screen."
+  </div>
+
+  <h3>WHAT'S INCLUDED IN THIS PITCH</h3>
+  <p>✦ Series bible (this document)<br>
+  ✦ 20 original character designs<br>
+  ✦ 8 world designs<br>
+  ✦ Season 1 episode outlines (13 episodes)<br>
+  ✦ Live trading card game: oliveryvo-cmd.github.io/kidforever-cards/<br>
+  ✦ Live platform: oliveryvo-cmd.github.io/kidrising-platform/<br>
+  ✦ Original theme song: "I Feel You" by Oliver<br>
+  ✦ Creator available for meetings, interviews, and press</p>
+</div>
+
+<!-- CONTACT -->
+<div class="page" style="border:none;">
+  <div class="page-num">08 — CONTACT</div>
+  <div class="contact-box">
+    <div class="contact-cta">Ready to make<br><span>the next big show?</span></div>
+    <p style="max-width:480px;margin:0 auto 32px;font-size:0.8rem;color:#aaaabb;line-height:2;">KidForever is ready. The universe is built. The story is real. Let's talk.</p>
+    <div class="contact-detail">CREATOR — OLIVER (represented by parent)</div>
+    <div class="contact-detail">EMAIL — <a href="mailto:truongnvo@gmail.com">truongnvo@gmail.com</a></div>
+    <div class="contact-detail">PLATFORM — <a href="https://oliveryvo-cmd.github.io/kidrising-platform/" style="color:#ffcc00;">oliveryvo-cmd.github.io/kidrising-platform</a></div>
+    <div class="contact-detail" style="margin-top:20px;color:#222244;">© 2026 PUFFBLAZE WORLD STUDIOS · ALL RIGHTS RESERVED</div>
+  </div>
+</div>
+
+<script>
+const c=document.getElementById('stars'),x=c.getContext('2d');
+function draw(){
+  c.width=innerWidth;c.height=innerHeight;
+  x.clearRect(0,0,c.width,c.height);
+  for(let i=0;i<200;i++){
+    const px=Math.random()*c.width,py=Math.random()*c.height,r=Math.random()*1.2;
+    x.globalAlpha=Math.random()*0.6+0.1;
+    x.fillStyle=i%5===0?'#ffcc00':i%5===1?'#bb33ff':i%5===2?'#ff2244':'#fff';
+    x.beginPath();x.arc(px,py,r,0,Math.PI*2);x.fill();
+  }
+  x.globalAlpha=1;
+}
+draw();window.addEventListener('resize',draw);
+</script>
+</body>
+</html>
