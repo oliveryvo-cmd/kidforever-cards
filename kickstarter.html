@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KidForever Cards — The Trading Card Game by a 10-Year-Old</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#ffcc00;--red:#ff2244;--purple:#bb33ff;--green:#00ffaa;--bg:#03020a;}
+body{background:#f5f5f5;font-family:'Segoe UI',Arial,sans-serif;color:#111;}
+
+/* NAV */
+nav{background:#03020a;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{font-size:1rem;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,#ffcc00,#ff2244);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-btn{padding:10px 28px;background:linear-gradient(135deg,#ffcc00,#ff2244);border:none;border-radius:50px;font-size:0.75rem;font-weight:900;letter-spacing:3px;cursor:pointer;color:#000;font-family:inherit;}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#03020a,#0d0020,#1a0005);color:#fff;padding:80px 24px 60px;text-align:center;}
+.hero-badge{display:inline-block;font-size:0.5rem;letter-spacing:5px;color:#ffcc00;border:1px solid #ffcc0055;border-radius:50px;padding:6px 20px;margin-bottom:20px;}
+.hero-title{font-size:clamp(2.5rem,8vw,5rem);font-weight:900;line-height:1;margin-bottom:16px;}
+.hero-title span{background:linear-gradient(135deg,#ffcc00,#ff2244,#bb33ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-size:0.9rem;color:#aaaabb;line-height:1.9;max-width:560px;margin:0 auto 32px;}
+.hero-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.hstat{text-align:center;}
+.hstat-n{font-size:2rem;font-weight:900;color:#ffcc00;}
+.hstat-l{font-size:0.45rem;letter-spacing:4px;color:#555577;margin-top:2px;}
+.hero-bar-wrap{max-width:500px;margin:0 auto 12px;}
+.hero-bar-bg{background:#111133;border-radius:50px;height:12px;overflow:hidden;}
+.hero-bar{background:linear-gradient(90deg,#ffcc00,#ff2244);height:100%;border-radius:50px;width:0%;transition:width 2s ease;}
+.hero-bar-label{display:flex;justify-content:space-between;font-size:0.5rem;letter-spacing:3px;color:#555577;margin-top:6px;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px;}
+.btn-primary{padding:16px 44px;background:linear-gradient(135deg,#ffcc00,#ff2244);border:none;border-radius:50px;font-size:0.8rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#000;font-family:inherit;}
+.btn-secondary{padding:16px 44px;background:transparent;border:2px solid rgba(255,255,255,0.2);border-radius:50px;font-size:0.8rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#fff;font-family:inherit;}
+
+/* LAYOUT */
+.container{max-width:960px;margin:0 auto;padding:0 24px;}
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:40px;padding:60px 0;}
+@media(max-width:720px){.two-col{grid-template-columns:1fr;}}
+
+/* STORY */
+.story-section{padding:60px 0;}
+.section-tag{font-size:0.45rem;letter-spacing:6px;color:#ff2244;margin-bottom:10px;font-weight:700;}
+.section-title{font-size:clamp(1.6rem,5vw,2.8rem);font-weight:900;color:#111;margin-bottom:20px;line-height:1.1;}
+.story-body{font-size:0.95rem;color:#444;line-height:2.1;}
+.story-body p{margin-bottom:18px;}
+.story-body strong{color:#111;}
+.story-quote{background:linear-gradient(135deg,#fff8e0,#fff0f3);border-left:4px solid #ffcc00;padding:20px 24px;border-radius:0 12px 12px 0;margin:24px 0;font-size:1rem;font-style:italic;color:#333;line-height:1.8;}
+
+/* CARD PREVIEW */
+.cards-section{background:#03020a;padding:60px 24px;text-align:center;}
+.cards-section .section-tag{color:#ffcc00;}
+.cards-section .section-title{color:#fff;}
+.card-scroll{display:flex;gap:16px;overflow-x:auto;padding:20px 0;justify-content:center;flex-wrap:wrap;}
+.preview-card{width:130px;height:182px;border-radius:10px;border:2px solid #222;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;flex-shrink:0;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;}
+.preview-card .pc-shine{position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.1) 50%,transparent 60%);}
+.pc-rarity{font-size:5px;letter-spacing:2px;margin-bottom:4px;}
+.pc-art{font-size:36px;margin-bottom:4px;}
+.pc-name{font-size:7px;font-weight:900;letter-spacing:2px;color:#fff;margin-bottom:2px;}
+.pc-world{font-size:5px;letter-spacing:2px;opacity:0.7;margin-bottom:4px;}
+.pc-stats{display:flex;gap:6px;}
+.pc-st{text-align:center;}
+.pc-stn{font-size:8px;font-weight:900;color:#fff;}
+.pc-stl{font-size:4px;letter-spacing:1px;opacity:0.6;color:#fff;}
+
+/* REWARDS */
+.rewards-section{padding:60px 0;}
+.reward-card{background:#fff;border:2px solid #eee;border-radius:20px;padding:28px;margin-bottom:16px;cursor:pointer;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s;}
+.reward-card:hover{border-color:#ffcc00;transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,204,0,0.15);}
+.reward-card.featured{border-color:#ffcc00;background:linear-gradient(135deg,#fffbe6,#fff8f0);}
+.rc-top{display:flex;align-items:center;gap:16px;margin-bottom:12px;}
+.rc-price{font-size:1.8rem;font-weight:900;color:#111;}
+.rc-badge{font-size:0.4rem;letter-spacing:3px;padding:4px 12px;border-radius:50px;background:linear-gradient(135deg,#ffcc00,#ff2244);color:#000;font-weight:900;}
+.rc-title{font-size:0.9rem;font-weight:900;color:#111;margin-bottom:6px;}
+.rc-desc{font-size:0.7rem;color:#666;line-height:1.8;}
+.rc-includes{margin-top:12px;}
+.rc-include{font-size:0.65rem;color:#333;padding:3px 0;display:flex;align-items:center;gap:8px;}
+.rc-include::before{content:"✓";color:#ffcc00;font-weight:900;}
+.rc-limit{font-size:0.5rem;letter-spacing:2px;color:#ff2244;margin-top:8px;}
+
+/* STICKY PLEDGE */
+.pledge-box{background:#fff;border:2px solid #eee;border-radius:20px;padding:24px;position:sticky;top:80px;}
+.pb-raised{font-size:2rem;font-weight:900;color:#111;margin-bottom:2px;}
+.pb-goal{font-size:0.55rem;letter-spacing:3px;color:#888;margin-bottom:16px;}
+.pb-bar-bg{background:#f0f0f0;border-radius:50px;height:8px;margin-bottom:16px;}
+.pb-bar{background:linear-gradient(90deg,#ffcc00,#ff2244);height:100%;border-radius:50px;width:0%;}
+.pb-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.pb-stat-n{font-size:1.2rem;font-weight:900;color:#111;}
+.pb-stat-l{font-size:0.45rem;letter-spacing:2px;color:#888;}
+.pb-btn{width:100%;padding:16px;background:linear-gradient(135deg,#ffcc00,#ff2244);border:none;border-radius:50px;font-size:0.8rem;font-weight:900;letter-spacing:4px;cursor:pointer;color:#000;font-family:inherit;margin-bottom:10px;}
+.pb-share{width:100%;padding:12px;background:#f5f5f5;border:2px solid #eee;border-radius:50px;font-size:0.65rem;font-weight:700;letter-spacing:3px;cursor:pointer;color:#333;font-family:inherit;}
+.pb-end{font-size:0.5rem;letter-spacing:2px;color:#888;text-align:center;margin-top:12px;}
+
+/* WHY */
+.why-section{background:linear-gradient(160deg,#03020a,#0d0020);padding:60px 24px;color:#fff;}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:32px;}
+.why-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;}
+.why-icon{font-size:2rem;margin-bottom:12px;}
+.why-title{font-size:0.75rem;font-weight:900;letter-spacing:3px;color:#ffcc00;margin-bottom:8px;}
+.why-body{font-size:0.65rem;color:#aaaabb;line-height:2;}
+
+/* FAQ */
+.faq-section{padding:60px 0;}
+.faq-item{border-bottom:1px solid #eee;padding:20px 0;}
+.faq-q{font-size:0.85rem;font-weight:700;color:#111;margin-bottom:8px;cursor:pointer;}
+.faq-a{font-size:0.75rem;color:#555;line-height:1.9;}
+
+/* FOOTER */
+footer{background:#03020a;color:#fff;text-align:center;padding:40px 24px;}
+.foot-logo{font-size:2rem;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#ffcc00,#ff2244);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.foot-sub{font-size:0.45rem;letter-spacing:4px;color:#333355;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">KIDFOREVER CARDS</div>
+  <button class="nav-btn" onclick="document.getElementById('rewards').scrollIntoView({behavior:'smooth'})">BACK THIS PROJECT</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">KICKSTARTER CAMPAIGN — LIVE NOW</div>
+  <h1 class="hero-title"><span>KidForever Cards</span></h1>
+  <p class="hero-sub">A real trading card game — with foil legendaries, booster packs, and epic art — created by a 10-year-old with Tourette syndrome who built a whole universe before age 11.</p>
+
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n" id="raised-hero">$0</div><div class="hstat-l">RAISED</div></div>
+    <div class="hstat"><div class="hstat-n" id="backers-hero">0</div><div class="hstat-l">BACKERS</div></div>
+    <div class="hstat"><div class="hstat-n">30</div><div class="hstat-l">DAYS LEFT</div></div>
+    <div class="hstat"><div class="hstat-n">$5,000</div><div class="hstat-l">GOAL</div></div>
+  </div>
+
+  <div class="hero-bar-wrap">
+    <div class="hero-bar-bg"><div class="hero-bar" id="hero-bar"></div></div>
+    <div class="hero-bar-label"><span>0%</span><span>GOAL: $5,000</span></div>
+  </div>
+
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('rewards').scrollIntoView({behavior:'smooth'})">⚡ BACK THIS PROJECT</button>
+    <button class="btn-secondary" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">READ THE STORY</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+  <div class="two-col">
+
+    <!-- LEFT: STORY + CONTENT -->
+    <div>
+
+      <!-- STORY -->
+      <div class="story-section" id="story">
+        <div class="section-tag">THE STORY</div>
+        <h2 class="section-title">A 10-Year-Old Who Refused to Wait</h2>
+        <div class="story-body">
+          <p>My name is <strong>Oliver</strong>. I'm 10 years old, I live in California, and I have Tourette syndrome.</p>
+          <p>Most people think kids have to wait until they grow up to build something real. I didn't wait.</p>
+          <p>I built <strong>KidRising</strong> — a social network for kids. Then a parliament where kids vote on real laws. Then a country called <strong>KidRising Nation</strong> with its own passports, constitution, and national anthem. Then a platform connecting all of it together. Then an arcade shooter called <strong>HYPERBLAST ULTRA</strong>. Then a music career — my debut single is called <em>"I Feel You"</em>, about understanding what it feels like to have a disability, because I do.</p>
+          <div class="story-quote">"I Feel You" — Oliver's debut single. About the moment he told a friend with a disability: "I understand. Because I have one too."</div>
+          <p>And now: <strong>KidForever Cards</strong>. A trading card game I designed from scratch — 20 characters, 4 rarities, 8 worlds, battle mechanics, and pack opening animations. I built the whole digital version myself.</p>
+          <p>But I want it to be <strong>real</strong>. Not printed on my dad's printer. Real foil cards, real booster packs, real packaging — so every kid who opens one feels the same thing I felt opening my first Pokémon pack.</p>
+          <p>This Kickstarter will pay for professional card printing. If we hit $5,000, every backer gets their cards. If we go further — we add more characters, more worlds, and maybe a real tournament.</p>
+          <p><strong>I'm 10. I built all of this before I turned 11. Help me make the cards real.</strong></p>
+        </div>
+      </div>
+
+      <!-- CARD PREVIEW -->
+    </div><!-- end left col -->
+
+    <!-- RIGHT: PLEDGE BOX -->
+    <div>
+      <div class="pledge-box" id="rewards">
+        <div class="pb-raised" id="raised-side">$0</div>
+        <div class="pb-goal">PLEDGED OF $5,000 GOAL</div>
+        <div class="pb-bar-bg"><div class="pb-bar" id="side-bar"></div></div>
+        <div class="pb-stats">
+          <div><div class="pb-stat-n" id="backers-side">0</div><div class="pb-stat-l">BACKERS</div></div>
+          <div><div class="pb-stat-n">30</div><div class="pb-stat-l">DAYS LEFT</div></div>
+        </div>
+        <button class="pb-btn">⚡ BACK THIS PROJECT</button>
+        <button class="pb-share" onclick="if(navigator.share)navigator.share({title:'KidForever Cards',text:'A 10-year-old with Tourette syndrome built a trading card game. Back it on Kickstarter!',url:window.location.href});">📤 SHARE WITH FRIENDS</button>
+        <div class="pb-end">Campaign ends in 30 days</div>
+      </div>
+    </div>
+
+  </div><!-- end two-col -->
+</div><!-- end container -->
+
+<!-- CARD PREVIEW SECTION -->
+<div class="cards-section">
+  <div class="section-tag">THE CARDS</div>
+  <h2 class="section-title" style="color:#fff;">20 Characters. 4 Rarities. 8 Worlds.</h2>
+  <p style="color:#aaaabb;font-size:0.7rem;letter-spacing:3px;margin:8px 0 24px;">Every pack is different. Legendaries have foil shimmer.</p>
+  <div class="card-scroll">
+    <div class="preview-card" style="background:linear-gradient(135deg,#1a1100,#0a0800);">
+      <div class="pc-shine"></div>
+      <div class="pc-rarity" style="color:#ffcc00;">LEGENDARY ✦</div>
+      <div class="pc-art">⚡</div>
+      <div class="pc-name">OLIVER</div>
+      <div class="pc-world" style="color:#ffcc00;">KIDRISING</div>
+      <div class="pc-stats"><div class="pc-st"><div class="pc-stn" style="color:#ff4444;">99</div><div class="pc-stl">ATK</div></div><div class="pc-st"><div class="pc-stn" style="color:#4488ff;">99</div><div class="pc-stl">DEF</div></div><div class="pc-st"><div class="pc-stn" style="color:#00ffaa;">99</div><div class="pc-stl">SPD</div></div></div>
+    </div>
+    <div class="preview-card" style="background:linear-gradient(135deg,#1a0000,#330011);">
+      <div class="pc-shine"></div>
+      <div class="pc-rarity" style="color:#ffcc00;">LEGENDARY ✦</div>
+      <div class="pc-art">🐉</div>
+      <div class="pc-name">THE BOSS</div>
+      <div class="pc-world" style="color:#ff4444;">HYPERBLAST</div>
+      <div class="pc-stats"><div class="pc-st"><div class="pc-stn" style="color:#ff4444;">99</div><div class="pc-stl">ATK</div></div><div class="pc-st"><div class="pc-stn" style="color:#4488ff;">88</div><div class="pc-stl">DEF</div></div><div class="pc-st"><div class="pc-stn" style="color:#00ffaa;">70</div><div class="pc-stl">SPD</div></div></div>
+    </div>
+    <div class="preview-card" style="background:linear-gradient(135deg,#0d001a,#06000d);">
+      <div class="pc-shine"></div>
+      <div class="pc-rarity" style="color:#ffcc00;">LEGENDARY ✦</div>
+      <div class="pc-art">🔥</div>
+      <div class="pc-name">PUFFBLAZE</div>
+      <div class="pc-world" style="color:#bb33ff;">KIDFOREVER</div>
+      <div class="pc-stats"><div class="pc-st"><div class="pc-stn" style="color:#ff4444;">95</div><div class="pc-stl">ATK</div></div><div class="pc-st"><div class="pc-stn" style="color:#4488ff;">70</div><div class="pc-stl">DEF</div></div><div class="pc-st"><div class="pc-stn" style="color:#00ffaa;">85</div><div class="pc-stl">SPD</div></div></div>
+    </div>
+    <div class="preview-card" style="background:linear-gradient(135deg,#000a1a,#001530);">
+      <div class="pc-rarity" style="color:#bb33ff;">EPIC ✦</div>
+      <div class="pc-art">🤖</div>
+      <div class="pc-name">HYPERBOT</div>
+      <div class="pc-world" style="color:#ff4444;">HYPERBLAST</div>
+      <div class="pc-stats"><div class="pc-st"><div class="pc-stn" style="color:#ff4444;">85</div><div class="pc-stl">ATK</div></div><div class="pc-st"><div class="pc-stn" style="color:#4488ff;">60</div><div class="pc-stl">DEF</div></div><div class="pc-st"><div class="pc-stn" style="color:#00ffaa;">75</div><div class="pc-stl">SPD</div></div></div>
+    </div>
+    <div class="preview-card" style="background:linear-gradient(135deg,#080008,#120018);">
+      <div class="pc-rarity" style="color:#bb33ff;">EPIC ✦</div>
+      <div class="pc-art">👾</div>
+      <div class="pc-name">SHADOWKID</div>
+      <div class="pc-world" style="color:#bb33ff;">EPICWORLD</div>
+      <div class="pc-stats"><div class="pc-st"><div class="pc-stn" style="color:#ff4444;">78</div><div class="pc-stl">ATK</div></div><div class="pc-st"><div class="pc-stn" style="color:#4488ff;">55</div><div class="pc-stl">DEF</div></div><div class="pc-st"><div class="pc-stn" style="color:#00ffaa;">88</div><div class="pc-stl">SPD</div></div></div>
+    </div>
+    <div class="preview-card" style="background:linear-gradient(135deg,#000818,#001028);">
+      <div class="pc-rarity" style="color:#4488ff;">RARE</div>
+      <div class="pc-art">🦋</div>
+      <div class="pc-name">LUNA</div>
+      <div class="pc-world" style="color:#88ccff;">FLUFFLAND</div>
+      <div class="pc-stats"><div class="pc-st"><div class="pc-stn" style="color:#ff4444;">40</div><div class="pc-stl">ATK</div></div><div class="pc-st"><div class="pc-stn" style="color:#4488ff;">70</div><div class="pc-stl">DEF</div></div><div class="pc-st"><div class="pc-stn" style="color:#00ffaa;">90</div><div class="pc-stl">SPD</div></div></div>
+    </div>
+  </div>
+  <p style="color:#333355;font-size:0.5rem;letter-spacing:3px;margin-top:16px;">+ 14 more cards including TANK BOT, ZAPPER, SHELLY and more</p>
+</div>
+
+<!-- REWARDS -->
+<div class="container">
+  <div class="rewards-section">
+    <div class="section-tag">REWARD TIERS</div>
+    <h2 class="section-title">Pick Your Pledge</h2>
+
+    <div class="reward-card">
+      <div class="rc-top">
+        <div class="rc-price">$5</div>
+        <div>
+          <div class="rc-title">SUPPORTER</div>
+          <div style="font-size:0.5rem;letter-spacing:2px;color:#888;">DIGITAL BACKER</div>
+        </div>
+      </div>
+      <div class="rc-desc">You believe in Oliver. Your name goes in the credits of the KidForever digital game forever.</div>
+      <div class="rc-includes">
+        <div class="rc-include">Your name in the KidForever digital game credits</div>
+        <div class="rc-include">Backer-exclusive digital wallpaper pack</div>
+        <div class="rc-include">Updates as the cards are made</div>
+      </div>
+    </div>
+
+    <div class="reward-card featured">
+      <div class="rc-top">
+        <div class="rc-price">$10</div>
+        <div>
+          <div class="rc-title">STARTER PACK</div>
+          <div class="rc-badge">MOST POPULAR</div>
+        </div>
+      </div>
+      <div class="rc-desc">One real booster pack (5 cards) shipped to your door. Every pack has a chance at an OLIVER Legendary.</div>
+      <div class="rc-includes">
+        <div class="rc-include">1 physical booster pack (5 cards)</div>
+        <div class="rc-include">Includes 1 guaranteed Rare or higher</div>
+        <div class="rc-include">Your name in the game credits</div>
+        <div class="rc-include">Free US shipping</div>
+      </div>
+    </div>
+
+    <div class="reward-card">
+      <div class="rc-top">
+        <div class="rc-price">$25</div>
+        <div>
+          <div class="rc-title">TRIPLE PACK</div>
+        </div>
+      </div>
+      <div class="rc-desc">Three booster packs. Better odds at an Epic or Legendary. Your name printed inside every pack.</div>
+      <div class="rc-includes">
+        <div class="rc-include">3 physical booster packs (15 cards)</div>
+        <div class="rc-include">Your name printed inside every pack</div>
+        <div class="rc-include">1 guaranteed Epic or higher</div>
+        <div class="rc-include">Free US shipping</div>
+      </div>
+    </div>
+
+    <div class="reward-card">
+      <div class="rc-top">
+        <div class="rc-price">$50</div>
+        <div>
+          <div class="rc-title">COMPLETE SET</div>
+          <div class="rc-badge" style="background:linear-gradient(135deg,#bb33ff,#ff2244);">EPIC TIER</div>
+        </div>
+      </div>
+      <div class="rc-desc">The full set of all 20 KidForever Cards, including all 3 Legendaries with foil treatment. Plus a signed letter from Oliver.</div>
+      <div class="rc-includes">
+        <div class="rc-include">All 20 cards in the set</div>
+        <div class="rc-include">Foil treatment on all 3 Legendaries</div>
+        <div class="rc-include">Signed letter from Oliver</div>
+        <div class="rc-include">Your name in gold on the website</div>
+        <div class="rc-include">Free US shipping</div>
+      </div>
+    </div>
+
+    <div class="reward-card" style="border-color:#ffcc00;background:linear-gradient(135deg,#0d0020,#1a0005);color:#fff;">
+      <div class="rc-top">
+        <div class="rc-price" style="color:#ffcc00;">$100</div>
+        <div>
+          <div class="rc-title" style="color:#fff;">LEGENDARY BACKER</div>
+          <div class="rc-badge">ONLY 20 AVAILABLE</div>
+        </div>
+      </div>
+      <div class="rc-desc" style="color:#aaaabb;">Oliver will design a card based on YOU. Your name, your art, your stats. It goes in the game and in every future print run.</div>
+      <div class="rc-includes">
+        <div class="rc-include" style="color:#ffcc00;">Custom card designed by Oliver — YOU as a character</div>
+        <div class="rc-include" style="color:#ffcc00;">Your card in the KidForever digital game forever</div>
+        <div class="rc-include" style="color:#ffcc00;">10 physical copies of your own card</div>
+        <div class="rc-include" style="color:#ffcc00;">Complete set (all 20 cards)</div>
+        <div class="rc-include" style="color:#ffcc00;">Video call with Oliver</div>
+        <div class="rc-include" style="color:#ffcc00;">Free US shipping</div>
+      </div>
+      <div class="rc-limit">⚡ ONLY 20 SPOTS — EXTREMELY LIMITED</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHY -->
+<div class="why-section">
+  <div class="container">
+    <div class="section-tag" style="color:#ffcc00;">WHY BACK THIS</div>
+    <h2 class="section-title" style="color:#fff;">This Isn't Just Cards. It's a Movement.</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div class="why-title">REAL KID, REAL STORY</div>
+        <div class="why-body">Oliver is 10. He has Tourette syndrome. He built a social network, a government, a country, a game, and a music career. This is the most ambitious kid you've ever seen.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🎴</div>
+        <div class="why-title">REAL CARDS</div>
+        <div class="why-body">Not a promise. The digital game is already live. The card designs are done. This Kickstarter pays for professional printing. Cards ship within 60 days of funding.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🌍</div>
+        <div class="why-title">BIGGER MISSION</div>
+        <div class="why-body">KidForever is a platform for every disabled kid on earth — to build, create, and lead. Every dollar funds that mission and shows the world what kids can do.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🏆</div>
+        <div class="why-title">YOU'RE EARLY</div>
+        <div class="why-body">Oliver is 10 years old. Back him now and you can say you were there from the start — before the news, before the awards, before the world figures out who he is.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="container">
+  <div class="faq-section">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Who is Oliver?</div>
+      <div class="faq-a">Oliver is a 10-year-old from California with Tourette syndrome. He built KidRising (a social network), KidRising Parliament (a kid government), KidRising Nation (a country with real passports and a constitution), HYPERBLAST ULTRA (an arcade game), a music career, and now KidForever Cards — all before turning 11.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is the game already built?</div>
+      <div class="faq-a">Yes! The digital version of KidForever Cards is live right now at oliveryvo-cmd.github.io/kidforever-cards/. You can open packs, battle, and collect today. This Kickstarter is to make the physical version — real printed cards.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">When will cards ship?</div>
+      <div class="faq-a">If we hit our goal, cards ship within 60 days. We've already contacted card printers and have quotes ready. No delays — Oliver is serious about this.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if you don't hit $5,000?</div>
+      <div class="faq-a">Kickstarter is all-or-nothing. If we don't hit $5,000, you pay nothing and we don't print. But we believe we will — and so should you.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What happens if you raise MORE than $5,000?</div>
+      <div class="faq-a">Stretch goals: $10,000 = add 10 new cards. $20,000 = full tournament kit. $50,000 = Oliver goes to a real trading card convention to debut KidForever Cards to the world.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I get a custom card if I'm outside the US?</div>
+      <div class="faq-a">Custom cards ($100 tier) ship worldwide. Booster packs currently ship US only, but message us if you're international and we'll figure it out.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div style="background:linear-gradient(160deg,#03020a,#0d0020,#1a0005);padding:80px 24px;text-align:center;color:#fff;">
+  <div style="font-size:0.5rem;letter-spacing:6px;color:#ffcc00;margin-bottom:16px;">DON'T MISS THIS</div>
+  <h2 style="font-size:clamp(2rem,6vw,4rem);font-weight:900;margin-bottom:16px;line-height:1.1;">A 10-year-old is changing<br>what kids can do.<br><span style="background:linear-gradient(135deg,#ffcc00,#ff2244);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Be part of it.</span></h2>
+  <p style="color:#aaaabb;font-size:0.75rem;line-height:2;max-width:480px;margin:0 auto 32px;">Every backer gets cards. Every dollar funds a kid who refuses to wait. Share this with one person who needs to see it.</p>
+  <button class="btn-primary" style="font-size:0.9rem;padding:20px 60px;" onclick="document.getElementById('rewards').scrollIntoView({behavior:'smooth'})">⚡ BACK KIDFOREVER CARDS</button>
+  <div style="margin-top:20px;">
+    <button onclick="if(navigator.share)navigator.share({title:'KidForever Cards on Kickstarter',text:'A 10-year-old with Tourette syndrome built a trading card game and is launching it on Kickstarter. Back it!',url:window.location.href});else{navigator.clipboard.writeText(window.location.href);alert('Link copied!');}" style="background:none;border:none;color:#555577;font-size:0.55rem;letter-spacing:3px;cursor:pointer;">📤 SHARE THIS CAMPAIGN</button>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">KIDFOREVER</div>
+  <div class="foot-sub">CARDS · BY OLIVER · AGE 10 · CALIFORNIA · 2026</div>
+  <div style="margin-top:16px;font-size:0.42rem;letter-spacing:2px;color:#1a1a33;">
+    Questions? Contact: truongnvo@gmail.com
+  </div>
+</footer>
+
+<script>
+// Animate the funding bar on load (demo mode — replace with real Kickstarter data)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('hero-bar').style.width = '0%';
+    document.getElementById('side-bar').style.width = '0%';
+  }, 500);
+});
+
+// Smooth scroll for all anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
