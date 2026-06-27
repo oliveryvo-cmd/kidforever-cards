@@ -552,26 +552,13 @@ function buildCard(card){
   // art shadow
   ctx.fillStyle="rgba(0,0,0,0.3)";ctx.beginPath();ctx.roundRect(artX+2,artY+2,artW,artH,4);ctx.fill();
   ctx.save();ctx.beginPath();ctx.roundRect(artX,artY,artW,artH,4);ctx.clip();
-  if(card.useImage){
+  if(card.useImage&&card._img){
     card.drawBg(ctx,artW,artH);
-    const img=new Image();
-    img.src=card.useImage;
-    const drawImgCover=(im)=>{
-      const scale=Math.max(artW/im.naturalWidth,artH/im.naturalHeight);
-      const dw=im.naturalWidth*scale,dh=im.naturalHeight*scale;
-      const dx=(artW-dw)/2,dy=(artH-dh)/2;
-      ctx.drawImage(im,dx,dy,dw,dh);
-    };
-    if(img.complete&&img.naturalWidth>0){
-      drawImgCover(img);
-    } else {
-      img.onload=()=>{
-        ctx.save();ctx.beginPath();ctx.roundRect(artX,artY,artW,artH,4);ctx.clip();
-        ctx.translate(artX,artY);
-        drawImgCover(img);
-        ctx.restore();
-      };
-    }
+    const im=card._img;
+    const scale=Math.max(artW/im.naturalWidth,artH/im.naturalHeight);
+    const dw=im.naturalWidth*scale,dh=im.naturalHeight*scale;
+    const dx=(artW-dw)/2,dy=(artH-dh)/2;
+    ctx.drawImage(im,dx,dy,dw,dh);
   } else {
     card.drawBg(ctx,artW,artH);
     card.drawChar(ctx,artW/2,artH*0.62,0.75);
@@ -711,11 +698,38 @@ function buildBack(){
 const fronts=document.getElementById("fronts");
 const backs=document.getElementById("backs");
 Math.seedrandom=function(seed){Math.random=function(){seed=(seed*9301+49297)%233280;return seed/233280;};};
-CARDS.forEach((card,i)=>{
-  Math.seedrandom&&Math.seedrandom(i*1000);
-  fronts.appendChild(buildCard(card));
-  backs.appendChild(buildBack());
-});
+
+// Preload all images first, then build cards
+const imageCards=CARDS.filter(c=>c.useImage);
+let loaded=0;
+const preloaded={};
+
+function buildAllCards(){
+  CARDS.forEach((card,i)=>{
+    Math.seedrandom&&Math.seedrandom(i*1000);
+    if(card.useImage) card._img=preloaded[card.useImage];
+    fronts.appendChild(buildCard(card));
+    backs.appendChild(buildBack());
+  });
+}
+
+if(imageCards.length===0){
+  buildAllCards();
+} else {
+  imageCards.forEach(card=>{
+    const img=new Image();
+    img.onload=()=>{
+      preloaded[card.useImage]=img;
+      loaded++;
+      if(loaded===imageCards.length) buildAllCards();
+    };
+    img.onerror=()=>{
+      loaded++;
+      if(loaded===imageCards.length) buildAllCards();
+    };
+    img.src=card.useImage;
+  });
+}
 </script>
 </body>
 </html>
