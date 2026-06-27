@@ -556,12 +556,19 @@ function buildCard(card){
     card.drawBg(ctx,artW,artH);
     const img=new Image();
     img.src=card.useImage;
-    if(img.complete){
-      ctx.drawImage(img,0,0,artW,artH);
+    const drawImgCover=(im)=>{
+      const scale=Math.max(artW/im.naturalWidth,artH/im.naturalHeight);
+      const dw=im.naturalWidth*scale,dh=im.naturalHeight*scale;
+      const dx=(artW-dw)/2,dy=(artH-dh)/2;
+      ctx.drawImage(im,dx,dy,dw,dh);
+    };
+    if(img.complete&&img.naturalWidth>0){
+      drawImgCover(img);
     } else {
       img.onload=()=>{
         ctx.save();ctx.beginPath();ctx.roundRect(artX,artY,artW,artH,4);ctx.clip();
-        ctx.drawImage(img,artX,artY,artW,artH);
+        ctx.translate(artX,artY);
+        drawImgCover(img);
         ctx.restore();
       };
     }
