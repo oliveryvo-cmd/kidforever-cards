@@ -35,7 +35,8 @@ const CARDS = [
     weak:"none", resist:"🔥-30", retreat:1,
     typeColor:"#c8a800", typeDark:"#7a6200", typeMid:"#f5d000",
     desc:"Chosen hero of KidRising. Crown charges with lightning when he believes.",
-    drawBg: bgStorm, drawChar: charOliver },
+    drawBg: bgStorm, drawChar: function(ctx,cx,cy,s){ /* image drawn via drawBg override */ },
+    useImage: "oliver.png" },
   { name:"THE BOSS", world:"HYPERBLAST", rarity:"LEGENDARY", hp:190, type:"🔥",
     atk:99,def:88,spd:70, move:"Inferno Crush", moveCost:"🔥🔥🔥", moveDmg:110,
     weak:"💧×2", resist:"⚡-30", retreat:3,
@@ -551,8 +552,23 @@ function buildCard(card){
   // art shadow
   ctx.fillStyle="rgba(0,0,0,0.3)";ctx.beginPath();ctx.roundRect(artX+2,artY+2,artW,artH,4);ctx.fill();
   ctx.save();ctx.beginPath();ctx.roundRect(artX,artY,artW,artH,4);ctx.clip();
-  card.drawBg(ctx,artW,artH);
-  card.drawChar(ctx,artW/2,artH*0.62,0.75);
+  if(card.useImage){
+    card.drawBg(ctx,artW,artH);
+    const img=new Image();
+    img.src=card.useImage;
+    if(img.complete){
+      ctx.drawImage(img,0,0,artW,artH);
+    } else {
+      img.onload=()=>{
+        ctx.save();ctx.beginPath();ctx.roundRect(artX,artY,artW,artH,4);ctx.clip();
+        ctx.drawImage(img,artX,artY,artW,artH);
+        ctx.restore();
+      };
+    }
+  } else {
+    card.drawBg(ctx,artW,artH);
+    card.drawChar(ctx,artW/2,artH*0.62,0.75);
+  }
   // art inner vignette
   const vg=ctx.createRadialGradient(artW/2,artH/2,artH*0.25,artW/2,artH/2,artH*0.75);
   vg.addColorStop(0,"transparent");vg.addColorStop(1,"rgba(0,0,0,0.35)");
